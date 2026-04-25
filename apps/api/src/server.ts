@@ -24,6 +24,31 @@ const main = async () => {
     listTenants: () => accountingReadRepository.listTenants(),
     listEntities: (tenantId) => accountingReadRepository.listEntities(tenantId),
     listAccounts: (tenantId) => accountingReadRepository.listAccounts(tenantId),
+    listStatementMappings: (tenantId) => accountingReadRepository.listStatementMappings(tenantId),
+    createStatementMapping: (input) => accountingReadRepository.createStatementMapping(input),
+    updateStatementMapping: (tenantId, mappingId, input) =>
+      accountingReadRepository.updateStatementMapping(tenantId, mappingId, input),
+    listClosePeriods: (filters) => accountingReadRepository.listClosePeriods(filters),
+    createClosePeriod: (input) => accountingReadRepository.createClosePeriod(input),
+    updateClosePeriodStatus: (tenantId, closePeriodId, input) =>
+      accountingReadRepository.updateClosePeriodStatus(tenantId, closePeriodId, input),
+    listInvestorPositions: (filters) => accountingReadRepository.listInvestorPositions(filters),
+    runAllocations: (input) => accountingReadRepository.runAllocations(input),
+    listAllocations: (filters) => accountingReadRepository.listAllocations(filters),
+    getAllocationById: (tenantId, allocationId) => accountingReadRepository.getAllocationById(tenantId, allocationId),
+    getInvestorAllocationHistory: (tenantId, investorId) =>
+      accountingReadRepository.getInvestorAllocationHistory(tenantId, investorId),
+    reverseJournal: (input) =>
+      import("./adapters/drizzle-accounting-event-repository").then(({ reverseJournal }) => reverseJournal(db, input)),
+    reprocessEvent: (input) =>
+      import("./adapters/drizzle-accounting-event-repository").then(({ reprocessEvent }) => reprocessEvent(db, input)),
+    createManualJournal: (input) =>
+      import("./adapters/drizzle-accounting-event-repository").then(({ createManualJournal }) =>
+        createManualJournal(db, input),
+      ),
+    approveJournal: (input) =>
+      import("./adapters/drizzle-accounting-event-repository").then(({ approveJournal }) => approveJournal(db, input)),
+    listAuditLogs: (filters) => accountingReadRepository.listAuditLogs(filters),
     listProducts: (tenantId) => accountingReadRepository.listProducts(tenantId),
     listContracts: (tenantId) => accountingReadRepository.listContracts(tenantId),
     listEvents: (filters) => accountingReadRepository.listEvents(filters),
@@ -31,6 +56,9 @@ const main = async () => {
     getJournalById: (tenantId, journalId) => accountingReadRepository.getJournalById(tenantId, journalId),
     listJournals: (filters) => accountingReadRepository.listJournals(filters),
     getTrialBalance: (filters) => accountingReadRepository.getTrialBalance(filters),
+    getBalanceSheet: (filters) => accountingReadRepository.getBalanceSheet(filters),
+    getProfitLoss: (filters) => accountingReadRepository.getProfitLoss(filters),
+    getCashFlow: (filters) => accountingReadRepository.getCashFlow(filters),
   });
 
   try {

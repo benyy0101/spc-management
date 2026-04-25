@@ -1,7 +1,7 @@
 import { getApiBaseUrl } from "./config";
 
 type RequestOptions = {
-  method?: "GET" | "POST";
+  method?: "GET" | "POST" | "PATCH";
   body?: unknown;
 };
 

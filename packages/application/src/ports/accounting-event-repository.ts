@@ -20,5 +20,12 @@ export interface AccountingEventRepositoryPort {
     idempotencyKey: string;
   }): Promise<boolean>;
 
+  isPostingBlocked(input: {
+    tenantId: string;
+    entityId: string;
+    bookCode?: string;
+    accountingDate: string;
+  }): Promise<boolean>;
+
   persistAccountingEvent(input: PersistAccountingEventInput): Promise<PersistAccountingEventResult>;
 }

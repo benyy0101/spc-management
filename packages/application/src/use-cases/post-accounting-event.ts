@@ -1,4 +1,5 @@
 import { generateJournalsForEvent } from "@spc/domain";
+import { ClosedPeriodError } from "../errors";
 import type { AccountingEventRepositoryPort } from "../ports/accounting-event-repository";
 import type { AuditLogPort } from "../ports/audit-log-port";
 import type { PostAccountingEventCommand, PostAccountingEventResult } from "../dto/post-accounting-event";
@@ -25,6 +26,17 @@ export const postAccountingEvent = async (
       journalCount: 0,
       skippedAsDuplicate: true,
     };
+  }
+
+  const postingBlocked = await deps.accountingEventRepository.isPostingBlocked({
+    tenantId: command.tenantId,
+    entityId: command.event.entityId,
+    bookCode: command.event.bookCode,
+    accountingDate: command.event.accountingDate,
+  });
+
+  if (postingBlocked) {
+    throw new ClosedPeriodError(`Accounting period is closed for ${command.event.accountingDate}`);
   }
 
   const journals = generateJournalsForEvent(command.event, {

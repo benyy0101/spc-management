@@ -12,8 +12,8 @@ export default async function NewEventPage() {
         eyebrow={pick(locale, { en: "Events", ko: "이벤트" })}
         title={pick(locale, { en: "Post New Accounting Event", ko: "새 회계 이벤트 입력" })}
         description={pick(locale, {
-          en: "This form will stay intentionally narrow in the first pass. It only needs to support the 3 event types that validate the core loan lifecycle.",
-          ko: "이 화면은 1차에서 의도적으로 범위를 좁게 유지합니다. 핵심 대출 라이프사이클을 검증하는 3개 이벤트만 지원하면 충분합니다.",
+          en: "This form focuses on the supported event types needed to operate the core loan lifecycle.",
+          ko: "이 화면은 핵심 대출 라이프사이클 운영에 필요한 지원 이벤트 유형에 집중합니다.",
         })}
       />
       <NewEventForm locale={locale} />

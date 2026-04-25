@@ -26,7 +26,7 @@ export function SidebarNav({ locale }: { locale: Locale }) {
               {pick(locale, { en: "Operations Console", ko: "운영 콘솔" })}
             </h1>
           </div>
-          <Badge variant="outline">{pick(locale, { en: "MVP", ko: "MVP" })}</Badge>
+          <Badge variant="outline">{pick(locale, { en: "Live", ko: "운영" })}</Badge>
         </div>
         <p className="mt-3 text-sm leading-6 text-muted-foreground">
           {pick(locale, {
@@ -62,14 +62,7 @@ export function SidebarNav({ locale }: { locale: Locale }) {
                       <Icon className="size-4" />
                     </span>
                     <span className="min-w-0 flex-1">
-                      <span className="flex items-center gap-2 text-sm font-medium text-foreground">
-                        {item.label}
-                        {item.status === "planned" ? (
-                          <Badge variant="outline" className="h-4 px-1.5 text-[10px]">
-                            {pick(locale, { en: "2nd", ko: "2차" })}
-                          </Badge>
-                        ) : null}
-                      </span>
+                      <span className="flex items-center gap-2 text-sm font-medium text-foreground">{item.label}</span>
                       <span className="mt-1 block text-xs leading-5 text-muted-foreground">
                         {item.description}
                       </span>

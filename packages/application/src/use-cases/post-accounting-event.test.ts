@@ -11,6 +11,9 @@ test("postAccountingEvent generates and persists journals", async () => {
     async existsByIdempotencyKey() {
       return false;
     },
+    async isPostingBlocked() {
+      return false;
+    },
     async persistAccountingEvent(input) {
       persisted.push(input);
       return {
@@ -66,6 +69,9 @@ test("postAccountingEvent skips duplicate idempotency key", async () => {
     async existsByIdempotencyKey() {
       return true;
     },
+    async isPostingBlocked() {
+      return false;
+    },
     async persistAccountingEvent() {
       persisted = true;
       return {
@@ -99,5 +105,52 @@ test("postAccountingEvent skips duplicate idempotency key", async () => {
 
   assert.equal(result.skippedAsDuplicate, true);
   assert.equal(result.journalCount, 0);
+  assert.equal(persisted, false);
+});
+
+test("postAccountingEvent blocks posting when accounting period is closed", async () => {
+  let persisted = false;
+
+  const repository: AccountingEventRepositoryPort = {
+    async existsByIdempotencyKey() {
+      return false;
+    },
+    async isPostingBlocked() {
+      return true;
+    },
+    async persistAccountingEvent() {
+      persisted = true;
+      return {
+        eventId: "EVT-TEST-300",
+        persistedEventId: "00000000-0000-0000-0000-000000000300",
+        journalCount: 0,
+      };
+    },
+  };
+
+  await assert.rejects(
+    () =>
+      postAccountingEvent(
+        {
+          accountingEventRepository: repository,
+        },
+        {
+          tenantId: "TENANT-DEMO-001",
+          accountingBasis: "KGAAP_GENERAL",
+          baseCurrency: "USD",
+          event: {
+            eventId: "EVT-TEST-300",
+            eventType: "interest_accrual",
+            entityId: "ENT-SPC-001",
+            bookCode: "SPC_BOOK",
+            accountingDate: "2026-01-31",
+            currency: "USD",
+            amount: "42000",
+          },
+        },
+      ),
+    /Accounting period is closed/,
+  );
+
   assert.equal(persisted, false);
 });

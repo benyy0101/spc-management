@@ -16,15 +16,15 @@ export function AppShell({ children, locale }: { children: ReactNode; locale: Lo
             <div className="flex items-center justify-between gap-4">
               <div>
                 <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
-                  {pick(locale, { en: "MVP Phase 1", ko: "1차 MVP" })}
+                  {pick(locale, { en: "Structured Finance", ko: "구조화 금융" })}
                 </p>
                 <h2 className="mt-1 font-heading text-2xl font-semibold tracking-tight">
-                  {pick(locale, { en: "Accounting Workflow", ko: "회계 워크플로" })}
+                  {pick(locale, { en: "Accounting Operations", ko: "회계 운영 화면" })}
                 </h2>
               </div>
               <div className="flex items-center gap-3">
                 <div className="rounded-full border border-border bg-card px-3 py-1.5 text-sm text-muted-foreground">
-                  {pick(locale, { en: "3 event types enabled", ko: "이벤트 유형 3개 지원" })}
+                  {pick(locale, { en: "Reporting and operations enabled", ko: "보고 및 운영 기능 활성화" })}
                 </div>
                 <LocaleToggle locale={locale} />
               </div>

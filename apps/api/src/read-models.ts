@@ -53,6 +53,221 @@ export type AccountReadModel = {
   isActive: boolean;
 };
 
+export type StatementMappingReadModel = {
+  id: string;
+  tenantId: string;
+  accountId: string;
+  accountCode: string;
+  accountName: string;
+  statementType: string;
+  lineCode: string;
+  lineName: string;
+  displayOrder: number;
+};
+
+export type CreateStatementMappingInput = {
+  tenantId: string;
+  accountId: string;
+  statementType: "BS" | "PL" | "CF";
+  lineCode: string;
+  lineName: string;
+  displayOrder: number;
+};
+
+export type UpdateStatementMappingInput = {
+  lineCode?: string;
+  lineName?: string;
+  displayOrder?: number;
+};
+
+export type ClosePeriodReadModel = {
+  id: string;
+  tenantId: string;
+  entityId: string;
+  entityCode: string;
+  bookId: string;
+  bookCode: string;
+  periodType: "month" | "quarter" | "year";
+  periodStart: string;
+  periodEnd: string;
+  status: "open" | "closing" | "closed" | "reopened";
+  closedAt: string | null;
+  closedBy: string | null;
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type CreateClosePeriodInput = {
+  tenantId: string;
+  entityId: string;
+  bookId: string;
+  periodType: "month" | "quarter" | "year";
+  periodStart: string;
+  periodEnd: string;
+  status?: "open" | "closing" | "closed" | "reopened";
+  closedBy?: string;
+};
+
+export type ClosePeriodListFilters = {
+  tenantId: string;
+  entityId?: string;
+  bookId?: string;
+  status?: "open" | "closing" | "closed" | "reopened";
+};
+
+export type UpdateClosePeriodStatusInput = {
+  status: "open" | "closing" | "closed" | "reopened";
+  closedBy?: string;
+};
+
+export type InvestorPositionReadModel = {
+  id: string;
+  tenantId: string;
+  fundEntityId: string;
+  fundEntityCode: string;
+  investorId: string;
+  investorCode: string;
+  investorName: string;
+  ownershipRatio: string;
+  commitmentAmount: string;
+  paidInAmount: string;
+  effectiveFrom: string;
+  effectiveTo: string | null;
+};
+
+export type InvestorPositionFilters = {
+  tenantId: string;
+  fundEntityId?: string;
+};
+
+export type InvestorAllocationReadModel = {
+  id: string;
+  tenantId: string;
+  fundEntityId: string;
+  fundEntityCode: string;
+  investorId: string;
+  investorCode: string;
+  investorName: string;
+  periodStart: string;
+  periodEnd: string;
+  allocationMethod: string;
+  sourceAmountType: string;
+  sourceAmount: string;
+  ownershipRatio: string;
+  allocatedProfitAmount: string;
+  cashDistributionAmount: string;
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type AllocationListFilters = {
+  tenantId: string;
+  fundEntityId?: string;
+  investorId?: string;
+  periodStart?: string;
+  periodEnd?: string;
+};
+
+export type RunAllocationInput = {
+  tenantId: string;
+  fundEntityId: string;
+  periodStart: string;
+  periodEnd: string;
+  method: "pro_rata";
+  sourceAmountType?: "profit";
+  sourceAmount: string;
+  cashDistributionAmount?: string;
+};
+
+export type ReverseJournalInput = {
+  tenantId: string;
+  journalId: string;
+  reversalDate?: string;
+  actorUserId?: string;
+};
+
+export type ReverseJournalResultReadModel = {
+  originalJournalId: string;
+  originalJournalNo: string;
+  reversalJournalId: string;
+  reversalJournalNo: string;
+  accountingDate: string;
+};
+
+export type ReprocessEventInput = {
+  tenantId: string;
+  eventId: string;
+  actorUserId?: string;
+};
+
+export type ReprocessEventResultReadModel = {
+  eventId: string;
+  reversedJournalCount: number;
+  newJournalCount: number;
+  journalNos: string[];
+};
+
+export type ManualJournalLineInput = {
+  accountCode: string;
+  side: "debit" | "credit";
+  amount: string;
+  currency: string;
+  productId?: string;
+  contractId?: string;
+  counterpartyEntityId?: string;
+  investorId?: string;
+  description?: string;
+};
+
+export type CreateManualJournalInput = {
+  tenantId: string;
+  entityId: string;
+  bookCode?: string;
+  accountingDate: string;
+  description?: string;
+  actorUserId?: string;
+  lines: ManualJournalLineInput[];
+};
+
+export type ManualJournalResultReadModel = {
+  journalId: string;
+  journalNo: string;
+  accountingDate: string;
+  lineCount: number;
+};
+
+export type ApproveJournalInput = {
+  tenantId: string;
+  journalId: string;
+  actorUserId?: string;
+};
+
+export type ApproveJournalResultReadModel = {
+  journalId: string;
+  journalNo: string;
+  postingStatus: "approved";
+  approvedBy: string | null;
+};
+
+export type AuditLogReadModel = {
+  id: string;
+  tenantId: string;
+  actorUserId: string | null;
+  actionType: string;
+  resourceType: string;
+  resourceId: string;
+  beforePayload: Record<string, unknown> | null;
+  afterPayload: Record<string, unknown> | null;
+  createdAt: string;
+};
+
+export type AuditLogFilters = {
+  tenantId: string;
+  actionType?: string;
+  resourceType?: string;
+  resourceId?: string;
+};
+
 export type ProductReadModel = {
   id: string;
   tenantId: string;
@@ -158,4 +373,38 @@ export type TrialBalanceFilters = {
   tenantId: string;
   entityId?: string;
   asOf: string;
+};
+
+export type BalanceSheetFilters = {
+  tenantId: string;
+  entityId?: string;
+  asOf: string;
+};
+
+export type PeriodStatementFilters = {
+  tenantId: string;
+  entityId?: string;
+  from: string;
+  to: string;
+};
+
+export type FinancialStatementLineReadModel = {
+  lineCode: string;
+  lineName: string;
+  statementType: string;
+  amount: string;
+  displayOrder: number;
+};
+
+export type FinancialStatementReadModel = {
+  tenantId: string;
+  entityId?: string;
+  statementType: "BS" | "PL" | "CF";
+  asOf?: string;
+  from?: string;
+  to?: string;
+  rows: FinancialStatementLineReadModel[];
+  totals: {
+    amount: string;
+  };
 };

@@ -37,8 +37,8 @@ export default async function Home() {
         eyebrow={pick(locale, { en: "Dashboard", ko: "대시보드" })}
         title={pick(locale, { en: "Accounting Flow Overview", ko: "회계 흐름 개요" })}
         description={pick(locale, {
-          en: "The web MVP is centered on the shortest path to validate the accounting engine: enter a supported event, inspect the generated journals, and confirm the balances in trial balance.",
-          ko: "웹 MVP는 회계 엔진을 가장 짧게 검증하는 흐름에 집중합니다. 지원 이벤트를 입력하고, 생성된 전표를 검토한 뒤, 시산표에서 잔액을 확인합니다.",
+          en: "Use the console to post supported accounting events, inspect the generated journals, and confirm the resulting balances in the trial balance.",
+          ko: "이 콘솔에서 지원되는 회계 이벤트를 입력하고, 생성된 전표를 검토한 뒤, 시산표에서 결과 잔액을 확인할 수 있습니다.",
         })}
         action={
           <Link href="/events/new" className={cn(buttonVariants())}>
@@ -77,7 +77,7 @@ export default async function Home() {
         <Card className="border-border/70 shadow-sm">
           <CardHeader>
             <CardDescription>{pick(locale, { en: "Execution Path", ko: "실행 경로" })}</CardDescription>
-            <CardTitle className="mt-2">{pick(locale, { en: "1st MVP Workflow", ko: "1차 MVP 흐름" })}</CardTitle>
+            <CardTitle className="mt-2">{pick(locale, { en: "Core Workflow", ko: "핵심 워크플로" })}</CardTitle>
           </CardHeader>
           <CardContent className="grid gap-3 sm:grid-cols-3">
             {[
@@ -107,7 +107,7 @@ export default async function Home() {
             <div className="flex items-center justify-between gap-4">
               <div>
                 <CardDescription>{pick(locale, { en: "Roadmap", ko: "로드맵" })}</CardDescription>
-                <CardTitle className="mt-2">{pick(locale, { en: "2nd MVP Navigation", ko: "2차 MVP 확장" })}</CardTitle>
+                <CardTitle className="mt-2">{pick(locale, { en: "Extended Workspace", ko: "확장 작업 영역" })}</CardTitle>
               </div>
               <Badge variant="outline">{pick(locale, { en: "Expandable", ko: "확장 가능" })}</Badge>
             </div>
