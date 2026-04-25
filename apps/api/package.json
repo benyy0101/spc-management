@@ -1,0 +1,27 @@
+{
+  "name": "@spc/api",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "dev": "tsx watch src/server.ts",
+    "lint": "tsc -p tsconfig.json --noEmit",
+    "start": "node --import tsx src/server.ts",
+    "test": "node --import tsx --test --test-concurrency=1 ./src/**/*.test.ts",
+    "test:integration": "DATABASE_URL=${DATABASE_URL:-postgres://postgres:postgres@localhost:5432/spc} node --import tsx --test --test-concurrency=1 ./src/accounting-events.integration.test.ts"
+  },
+  "dependencies": {
+    "@fastify/swagger": "^9.5.1",
+    "@fastify/swagger-ui": "^5.2.3",
+    "@spc/application": "workspace:*",
+    "@spc/db": "workspace:*",
+    "@spc/domain": "workspace:*",
+    "drizzle-orm": "^0.44.2",
+    "fastify": "^5.6.1"
+  },
+  "devDependencies": {
+    "@types/node": "^24.6.0",
+    "tsx": "^4.20.3",
+    "typescript": "^5.8.3"
+  }
+}

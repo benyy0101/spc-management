@@ -15,6 +15,7 @@ test("postAccountingEvent generates and persists journals", async () => {
       persisted.push(input);
       return {
         eventId: input.event.eventId,
+        persistedEventId: "00000000-0000-0000-0000-000000000100",
         journalCount: input.journals.length,
       };
     },
@@ -69,6 +70,7 @@ test("postAccountingEvent skips duplicate idempotency key", async () => {
       persisted = true;
       return {
         eventId: "EVT-TEST-200",
+        persistedEventId: "00000000-0000-0000-0000-000000000200",
         journalCount: 0,
       };
     },

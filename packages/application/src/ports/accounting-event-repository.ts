@@ -1,12 +1,15 @@
 import type { AccountingEvent, JournalDraft } from "@spc/domain";
 
 export type PersistAccountingEventInput = {
+  tenantId: string;
   event: AccountingEvent;
   journals: JournalDraft[];
+  actorUserId?: string;
 };
 
 export type PersistAccountingEventResult = {
   eventId: string;
+  persistedEventId: string;
   journalCount: number;
 };
 

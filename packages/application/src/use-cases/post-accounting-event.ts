@@ -33,8 +33,10 @@ export const postAccountingEvent = async (
   });
 
   const persisted = await deps.accountingEventRepository.persistAccountingEvent({
+    tenantId: command.tenantId,
     event: command.event,
     journals,
+    actorUserId: command.actorUserId,
   });
 
   if (deps.auditLog) {
@@ -43,7 +45,7 @@ export const postAccountingEvent = async (
       actorUserId: command.actorUserId,
       actionType: "post_accounting_event",
       resourceType: "event",
-      resourceId: persisted.eventId,
+      resourceId: persisted.persistedEventId,
       metadata: {
         eventType: command.event.eventType,
         journalCount: persisted.journalCount,
