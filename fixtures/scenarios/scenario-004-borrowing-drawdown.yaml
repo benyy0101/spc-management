@@ -1,0 +1,77 @@
+scenario:
+  id: SCN-004
+  code: scenario-004-borrowing-drawdown
+  name: SPC borrowing drawdown
+  description: The SPC draws a borrowing to fund additional asset activity and liquidity.
+  accounting_standard: K-GAAP-General
+  base_currency: USD
+  reporting_currencies:
+    - USD
+    - KRW
+  references:
+    master_common: /Users/tooning/spc/fixtures/master/common.yaml
+    master_coa: /Users/tooning/spc/fixtures/master/coa.yaml
+    exchange_rates: /Users/tooning/spc/fixtures/master/exchange-rates.yaml
+
+actors:
+  tenant_id: TENANT-DEMO-001
+  book_code: SPC_BOOK
+  entity_id: ENT-SPC-001
+
+inputs:
+  events:
+    - event_id: EVT-004-001
+      event_type: borrowing_drawdown
+      trade_date: 2026-01-06
+      accounting_date: 2026-01-06
+      settlement_date: 2026-01-06
+      currency: USD
+      amount: 2000000
+      lender_name: Maritime Senior Lender
+      description: SPC drawdown of senior borrowing facility
+
+expected:
+  journals:
+    - journal_id: JNL-004-001
+      accounting_date: 2026-01-06
+      entity_id: ENT-SPC-001
+      lines:
+        - account_code: 111000
+          side: debit
+          amount: 2000000
+          currency: USD
+        - account_code: 211000
+          side: credit
+          amount: 2000000
+          currency: USD
+
+  balances:
+    as_of: 2026-01-06
+    by_account:
+      - account_code: 111000
+        amount: 3000000
+        currency: USD
+      - account_code: 121000
+        amount: 7000000
+        currency: USD
+      - account_code: 211000
+        amount: 2000000
+        currency: USD
+      - account_code: 311000
+        amount: 8000000
+        currency: USD
+
+  statements:
+    spc_bs:
+      as_of: 2026-01-31
+      assets:
+        cash_and_cash_equivalents: 3000000
+        loan_receivables: 7000000
+      liabilities:
+        borrowings: 2000000
+      equity:
+        paid_in_capital: 8000000
+
+notes:
+  - This scenario validates liability recognition separately from loan asset accounting.
+  - The drawdown is modeled as a clean borrowing event without fees in phase 1.

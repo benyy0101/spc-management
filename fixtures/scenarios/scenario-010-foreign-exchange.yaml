@@ -1,0 +1,49 @@
+scenario:
+  id: SCN-010
+  code: scenario-010-foreign-exchange
+  name: Foreign exchange remeasurement
+  description: KRW reporting amount is updated from USD base balances using month-end FX rate.
+  accounting_standard: K-GAAP-General
+  base_currency: USD
+  reporting_currency: KRW
+
+actors:
+  tenant_id: TENANT-DEMO-001
+  book_code: SPC_BOOK
+  entity_id: ENT-SPC-001
+
+inputs:
+  events:
+    - event_id: EVT-010-001
+      event_type: fx_remeasurement
+      trade_date: 2026-02-28
+      accounting_date: 2026-02-28
+      settlement_date: 2026-02-28
+      from_currency: USD
+      to_currency: KRW
+      usd_amount_basis: 3000000
+      prior_fx_rate: 1365.00
+      current_fx_rate: 1372.00
+      amount: 21000000
+
+expected:
+  journals:
+    - journal_id: JNL-010-001
+      accounting_date: 2026-02-28
+      entity_id: ENT-SPC-001
+      lines:
+        - account_code: 111000
+          side: debit
+          amount: 21000000
+          currency: KRW
+        - account_code: 431000
+          side: credit
+          amount: 21000000
+          currency: KRW
+  reporting:
+    fx_translation:
+      usd_basis_amount: 3000000
+      krw_at_prior_rate: 4095000000
+      krw_at_current_rate: 4116000000
+      fx_gain_loss_krw: 21000000
+

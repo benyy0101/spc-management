@@ -1,0 +1,67 @@
+scenario:
+  id: SCN-011
+  code: scenario-011-cash-waterfall
+  name: Cash waterfall allocation
+  description: Cash inflow is allocated by contractual waterfall priority.
+  accounting_standard: K-GAAP-General
+  base_currency: USD
+
+actors:
+  tenant_id: TENANT-DEMO-001
+  book_code: SPC_BOOK
+  entity_id: ENT-SPC-001
+
+inputs:
+  waterfall_rule:
+    - priority: 1
+      target: operating_expense
+      amount: 10000
+    - priority: 2
+      target: interest_expense
+      amount: 15000
+    - priority: 3
+      target: borrowing_principal
+      amount: 25000
+    - priority: 4
+      target: reserve_cash
+      amount: 5000
+    - priority: 5
+      target: residual_distribution
+      amount: 45000
+  events:
+    - event_id: EVT-011-001
+      event_type: cash_waterfall_allocation
+      trade_date: 2026-03-01
+      accounting_date: 2026-03-01
+      settlement_date: 2026-03-01
+      currency: USD
+      gross_cash_inflow: 100000
+
+expected:
+  allocation:
+    gross_cash_inflow: 100000
+    allocations:
+      - target: operating_expense
+        amount: 10000
+      - target: interest_expense
+        amount: 15000
+      - target: borrowing_principal
+        amount: 25000
+      - target: reserve_cash
+        amount: 5000
+      - target: residual_distribution
+        amount: 45000
+  journals:
+    - journal_id: JNL-011-001
+      accounting_date: 2026-03-01
+      entity_id: ENT-SPC-001
+      lines:
+        - account_code: 111000
+          side: debit
+          amount: 100000
+          currency: USD
+        - account_code: 412000
+          side: credit
+          amount: 100000
+          currency: USD
+

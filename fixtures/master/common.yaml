@@ -1,0 +1,107 @@
+metadata:
+  version: 1
+  description: Common master data for all accounting fixtures
+  accounting_standard: K-GAAP-General
+  base_currency: USD
+  reporting_currencies:
+    - USD
+    - KRW
+  investor_allocation_method: pro_rata
+  cash_flow_statement_method: indirect
+
+entities:
+  manager:
+    id: ENT-MGR-001
+    code: BLUEHARBOR-AM
+    name: BlueHarbor Asset Management
+    type: asset_manager
+    functional_currency: USD
+
+  fund:
+    id: ENT-FUND-001
+    code: OCEAN-FUND-I
+    name: Ocean Structured Fund I
+    type: fund
+    functional_currency: USD
+
+  spc:
+    id: ENT-SPC-001
+    code: OCEAN-SPC-001
+    name: Ocean Shipping SPC 001
+    type: spc
+    functional_currency: USD
+
+investors:
+  - id: INV-001
+    code: LP-ALPHA
+    name: Alpha Pension Fund
+    type: institutional
+    commitment_currency: USD
+    ownership_ratio: 0.60
+
+  - id: INV-002
+    code: LP-BETA
+    name: Beta Insurance
+    type: institutional
+    commitment_currency: USD
+    ownership_ratio: 0.40
+
+products:
+  - id: PROD-LOAN-001
+    code: SHIP-LOAN-A
+    name: Senior Ship Loan A
+    product_type: loan_receivable
+    currency: USD
+
+  - id: PROD-BOND-001
+    code: SHIP-BOND-A
+    name: Shipping Bond A
+    product_type: bond
+    currency: USD
+
+  - id: PROD-FUND-SEC-001
+    code: FUND-UNIT-A
+    name: Fund Beneficiary Unit A
+    product_type: beneficiary_certificate
+    currency: USD
+
+  - id: PROD-EQUITY-001
+    code: SPC-EQUITY-A
+    name: SPC Equity A
+    product_type: equity
+    currency: USD
+
+contracts:
+  - id: CTR-LOAN-001
+    code: LOAN-AGREEMENT-A
+    contract_type: loan_agreement
+    linked_product_id: PROD-LOAN-001
+    lender_entity_id: ENT-SPC-001
+    borrower_name: Ocean Charter Operator Ltd
+    currency: USD
+    principal_amount: 10000000
+    interest_rate_type: fixed
+    interest_rate: 0.08
+    day_count_convention: ACT_360
+    maturity_date: 2027-12-31
+
+  - id: CTR-SPC-FUND-001
+    code: FUND-SPC-EQUITY-SUB
+    contract_type: equity_subscription
+    linked_product_id: PROD-EQUITY-001
+    investor_entity_id: ENT-FUND-001
+    issuer_entity_id: ENT-SPC-001
+    currency: USD
+
+dimensions:
+  accounting_basis:
+    - code: KGAAP_GENERAL
+      name: General Enterprise Accounting Standards
+  books:
+    - code: FUND_BOOK
+      entity_id: ENT-FUND-001
+    - code: SPC_BOOK
+      entity_id: ENT-SPC-001
+  currencies:
+    - USD
+    - KRW

@@ -1,0 +1,106 @@
+scenario:
+  id: SCN-002
+  code: scenario-002-fund-to-spc
+  name: Fund capital contribution into SPC
+  description: The fund contributes capital into the SPC as an equity investment.
+  accounting_standard: K-GAAP-General
+  base_currency: USD
+  reporting_currencies:
+    - USD
+    - KRW
+  references:
+    master_common: /Users/tooning/spc/fixtures/master/common.yaml
+    master_coa: /Users/tooning/spc/fixtures/master/coa.yaml
+    exchange_rates: /Users/tooning/spc/fixtures/master/exchange-rates.yaml
+
+actors:
+  tenant_id: TENANT-DEMO-001
+  source_book_code: FUND_BOOK
+  target_book_code: SPC_BOOK
+  fund_entity_id: ENT-FUND-001
+  spc_entity_id: ENT-SPC-001
+  contract_id: CTR-SPC-FUND-001
+
+inputs:
+  events:
+    - event_id: EVT-002-001
+      event_type: equity_contribution_to_spc
+      trade_date: 2026-01-03
+      accounting_date: 2026-01-03
+      settlement_date: 2026-01-03
+      currency: USD
+      amount: 8000000
+      from_entity_id: ENT-FUND-001
+      to_entity_id: ENT-SPC-001
+      contract_id: CTR-SPC-FUND-001
+      description: Fund contributes capital to SPC
+
+expected:
+  journals:
+    - journal_id: JNL-002-001-FUND
+      accounting_date: 2026-01-03
+      entity_id: ENT-FUND-001
+      lines:
+        - account_code: 123000
+          side: debit
+          amount: 8000000
+          currency: USD
+          counterparty_entity_id: ENT-SPC-001
+        - account_code: 111000
+          side: credit
+          amount: 8000000
+          currency: USD
+          counterparty_entity_id: ENT-SPC-001
+
+    - journal_id: JNL-002-002-SPC
+      accounting_date: 2026-01-03
+      entity_id: ENT-SPC-001
+      lines:
+        - account_code: 111000
+          side: debit
+          amount: 8000000
+          currency: USD
+          counterparty_entity_id: ENT-FUND-001
+        - account_code: 311000
+          side: credit
+          amount: 8000000
+          currency: USD
+          counterparty_entity_id: ENT-FUND-001
+
+  balances:
+    as_of: 2026-01-03
+    fund_book:
+      - account_code: 111000
+        amount: 2000000
+        currency: USD
+      - account_code: 123000
+        amount: 8000000
+        currency: USD
+    spc_book:
+      - account_code: 111000
+        amount: 8000000
+        currency: USD
+      - account_code: 311000
+        amount: 8000000
+        currency: USD
+
+  statements:
+    fund_bs:
+      as_of: 2026-01-31
+      assets:
+        cash_and_cash_equivalents: 2000000
+        equity_investments: 8000000
+      liabilities: {}
+      equity:
+        paid_in_capital: 10000000
+    spc_bs:
+      as_of: 2026-01-31
+      assets:
+        cash_and_cash_equivalents: 8000000
+      liabilities: {}
+      equity:
+        paid_in_capital: 8000000
+
+notes:
+  - The same economic event produces different journals in the fund and SPC books.
+  - This scenario establishes book separation as a core invariant.

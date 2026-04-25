@@ -1,0 +1,139 @@
+metadata:
+  version: 1
+  description: Baseline chart of accounts for fixture scenarios
+
+accounts:
+  - code: 111000
+    name: Cash and Cash Equivalents
+    type: asset
+    statement: BS
+
+  - code: 113000
+    name: Restricted Cash
+    type: asset
+    statement: BS
+
+  - code: 121000
+    name: Loan Receivables
+    type: asset
+    statement: BS
+
+  - code: 122000
+    name: Bond Investments
+    type: asset
+    statement: BS
+
+  - code: 123000
+    name: Equity Investments
+    type: asset
+    statement: BS
+
+  - code: 124000
+    name: Fund Investments
+    type: asset
+    statement: BS
+
+  - code: 131000
+    name: Accrued Interest Receivable
+    type: asset
+    statement: BS
+
+  - code: 139000
+    name: Allowance for Credit Losses
+    type: contra_asset
+    statement: BS
+
+  - code: 211000
+    name: Borrowings
+    type: liability
+    statement: BS
+
+  - code: 213000
+    name: Accrued Expenses
+    type: liability
+    statement: BS
+
+  - code: 221000
+    name: Unearned Revenue
+    type: liability
+    statement: BS
+
+  - code: 311000
+    name: Paid-in Capital
+    type: equity
+    statement: BS
+
+  - code: 312000
+    name: Retained Earnings
+    type: equity
+    statement: BS
+
+  - code: 411000
+    name: Interest Income
+    type: revenue
+    statement: PL
+
+  - code: 412000
+    name: Fee Income
+    type: revenue
+    statement: PL
+
+  - code: 421000
+    name: Fair Value Gain Loss
+    type: revenue
+    statement: PL
+
+  - code: 431000
+    name: Foreign Exchange Gain Loss
+    type: revenue
+    statement: PL
+
+  - code: 511000
+    name: Interest Expense
+    type: expense
+    statement: PL
+
+  - code: 512000
+    name: Management Fee Expense
+    type: expense
+    statement: PL
+
+  - code: 513000
+    name: Impairment Loss
+    type: expense
+    statement: PL
+
+  - code: 514000
+    name: Operating Expense
+    type: expense
+    statement: PL
+
+statement_mapping:
+  BS:
+    assets:
+      - 111000
+      - 113000
+      - 121000
+      - 122000
+      - 123000
+      - 124000
+      - 131000
+      - 139000
+    liabilities:
+      - 211000
+      - 213000
+      - 221000
+    equity:
+      - 311000
+      - 312000
+  PL:
+    revenue:
+      - 411000
+      - 412000
+      - 421000
+      - 431000
+    expense:
+      - 511000
+      - 512000
+      - 513000
+      - 514000

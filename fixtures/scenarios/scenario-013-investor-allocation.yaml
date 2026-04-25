@@ -1,0 +1,49 @@
+scenario:
+  id: SCN-013
+  code: scenario-013-investor-allocation
+  name: Investor allocation report
+  description: Fund-level results are allocated to investors on a pro-rata basis.
+  accounting_standard: K-GAAP-General
+  base_currency: USD
+
+actors:
+  tenant_id: TENANT-DEMO-001
+  book_code: FUND_BOOK
+  entity_id: ENT-FUND-001
+  allocation_method: pro_rata
+
+inputs:
+  allocation_source:
+    period_start: 2026-01-01
+    period_end: 2026-01-31
+    distributable_profit: 42000
+    distributable_cash: 0
+    ownership:
+      - investor_id: INV-001
+        ratio: 0.60
+      - investor_id: INV-002
+        ratio: 0.40
+
+expected:
+  allocations:
+    - investor_id: INV-001
+      profit_allocation: 25200
+      cash_distribution: 0
+    - investor_id: INV-002
+      profit_allocation: 16800
+      cash_distribution: 0
+  controls:
+    total_profit_allocated: 42000
+    total_cash_distributed: 0
+    allocation_difference: 0
+  report:
+    period_start: 2026-01-01
+    period_end: 2026-01-31
+    method: pro_rata
+    investors:
+      - investor_id: INV-001
+        ownership_ratio: 0.60
+        allocated_profit: 25200
+      - investor_id: INV-002
+        ownership_ratio: 0.40
+        allocated_profit: 16800

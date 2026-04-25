@@ -1,0 +1,81 @@
+scenario:
+  id: SCN-003
+  code: scenario-003-asset-acquisition
+  name: SPC loan receivable acquisition
+  description: The SPC acquires a loan receivable instead of a physical vessel asset for lower initial complexity.
+  accounting_standard: K-GAAP-General
+  base_currency: USD
+  reporting_currencies:
+    - USD
+    - KRW
+  references:
+    master_common: /Users/tooning/spc/fixtures/master/common.yaml
+    master_coa: /Users/tooning/spc/fixtures/master/coa.yaml
+    exchange_rates: /Users/tooning/spc/fixtures/master/exchange-rates.yaml
+
+actors:
+  tenant_id: TENANT-DEMO-001
+  book_code: SPC_BOOK
+  entity_id: ENT-SPC-001
+  contract_id: CTR-LOAN-001
+  product_id: PROD-LOAN-001
+
+inputs:
+  events:
+    - event_id: EVT-003-001
+      event_type: loan_origination
+      trade_date: 2026-01-05
+      accounting_date: 2026-01-05
+      settlement_date: 2026-01-05
+      currency: USD
+      amount: 7000000
+      product_id: PROD-LOAN-001
+      contract_id: CTR-LOAN-001
+      borrower_name: Ocean Charter Operator Ltd
+      description: SPC originates senior ship loan
+
+expected:
+  journals:
+    - journal_id: JNL-003-001
+      accounting_date: 2026-01-05
+      entity_id: ENT-SPC-001
+      lines:
+        - account_code: 121000
+          side: debit
+          amount: 7000000
+          currency: USD
+          product_id: PROD-LOAN-001
+        - account_code: 111000
+          side: credit
+          amount: 7000000
+          currency: USD
+          product_id: PROD-LOAN-001
+
+  balances:
+    as_of: 2026-01-05
+    by_account:
+      - account_code: 111000
+        amount: 1000000
+        currency: USD
+      - account_code: 121000
+        amount: 7000000
+        currency: USD
+    by_product:
+      - product_id: PROD-LOAN-001
+        principal_outstanding: 7000000
+        accrued_interest: 0
+        carrying_amount: 7000000
+
+  statements:
+    spc_bs:
+      as_of: 2026-01-31
+      assets:
+        cash_and_cash_equivalents: 1000000
+        loan_receivables: 7000000
+      liabilities: {}
+      equity:
+        paid_in_capital: 8000000
+
+notes:
+  - This scenario intentionally uses a loan receivable rather than a vessel asset.
+  - The goal is to validate core accounting flows before adding shipping asset complexity.

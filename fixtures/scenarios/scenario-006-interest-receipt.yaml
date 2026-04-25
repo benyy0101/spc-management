@@ -1,0 +1,60 @@
+scenario:
+  id: SCN-006
+  code: scenario-006-interest-receipt
+  name: Interest cash receipt
+  description: The SPC receives accrued interest in cash.
+  accounting_standard: K-GAAP-General
+  base_currency: USD
+  references:
+    master_common: /Users/tooning/spc/fixtures/master/common.yaml
+    master_coa: /Users/tooning/spc/fixtures/master/coa.yaml
+
+actors:
+  tenant_id: TENANT-DEMO-001
+  book_code: SPC_BOOK
+  entity_id: ENT-SPC-001
+  product_id: PROD-LOAN-001
+
+inputs:
+  events:
+    - event_id: EVT-006-001
+      event_type: interest_cash_receipt
+      trade_date: 2026-02-01
+      accounting_date: 2026-02-01
+      settlement_date: 2026-02-01
+      currency: USD
+      amount: 42000
+      product_id: PROD-LOAN-001
+
+expected:
+  journals:
+    - journal_id: JNL-006-001
+      accounting_date: 2026-02-01
+      entity_id: ENT-SPC-001
+      lines:
+        - account_code: 111000
+          side: debit
+          amount: 42000
+          currency: USD
+        - account_code: 131000
+          side: credit
+          amount: 42000
+          currency: USD
+  balances:
+    as_of: 2026-02-01
+    by_account:
+      - account_code: 111000
+        amount: 3042000
+        currency: USD
+      - account_code: 131000
+        amount: 0
+        currency: USD
+  statements:
+    cf:
+      period_start: 2026-02-01
+      period_end: 2026-02-01
+      operating_cash_flow: 42000
+      investing_cash_flow: 0
+      financing_cash_flow: 0
+      net_change_in_cash: 42000
+

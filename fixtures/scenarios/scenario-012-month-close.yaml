@@ -1,0 +1,79 @@
+scenario:
+  id: SCN-012
+  code: scenario-012-month-close
+  name: Month-end close and statements
+  description: Month-end close consolidates journals into statements for fund and SPC reporting.
+  accounting_standard: K-GAAP-General
+  base_currency: USD
+  reporting_currencies:
+    - USD
+    - KRW
+
+actors:
+  tenant_id: TENANT-DEMO-001
+  closing_period: 2026-01
+
+inputs:
+  close:
+    period_start: 2026-01-01
+    period_end: 2026-01-31
+    included_scenarios:
+      - SCN-001
+      - SCN-002
+      - SCN-003
+      - SCN-004
+      - SCN-005
+
+expected:
+  trial_balance:
+    entity_id: ENT-SPC-001
+    as_of: 2026-01-31
+    accounts:
+      - account_code: 111000
+        amount: 3000000
+        currency: USD
+      - account_code: 121000
+        amount: 7000000
+        currency: USD
+      - account_code: 131000
+        amount: 42000
+        currency: USD
+      - account_code: 211000
+        amount: 2000000
+        currency: USD
+      - account_code: 311000
+        amount: 8000000
+        currency: USD
+      - account_code: 411000
+        amount: 42000
+        currency: USD
+  statements:
+    spc_bs:
+      as_of: 2026-01-31
+      assets:
+        cash_and_cash_equivalents: 3000000
+        loan_receivables: 7000000
+        accrued_interest_receivable: 42000
+      liabilities:
+        borrowings: 2000000
+      equity:
+        paid_in_capital: 8000000
+        current_period_profit: 42000
+    spc_pl:
+      period_start: 2026-01-01
+      period_end: 2026-01-31
+      revenue:
+        interest_income: 42000
+      expense: {}
+      net_income: 42000
+    spc_cf_indirect:
+      period_start: 2026-01-01
+      period_end: 2026-01-31
+      net_income: 42000
+      adjustments:
+        accrued_interest_receivable_increase: -42000
+      net_cash_from_operating_activities: 0
+      net_cash_from_investing_activities: -7000000
+      net_cash_from_financing_activities: 10000000
+      net_change_in_cash: 3000000
+

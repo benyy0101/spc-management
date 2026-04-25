@@ -1,0 +1,58 @@
+scenario:
+  id: SCN-007
+  code: scenario-007-principal-repayment
+  name: Partial principal repayment
+  description: The borrower repays part of the principal.
+  accounting_standard: K-GAAP-General
+  base_currency: USD
+  references:
+    master_common: /Users/tooning/spc/fixtures/master/common.yaml
+    master_coa: /Users/tooning/spc/fixtures/master/coa.yaml
+
+actors:
+  tenant_id: TENANT-DEMO-001
+  book_code: SPC_BOOK
+  entity_id: ENT-SPC-001
+  product_id: PROD-LOAN-001
+
+inputs:
+  events:
+    - event_id: EVT-007-001
+      event_type: principal_repayment
+      trade_date: 2026-02-15
+      accounting_date: 2026-02-15
+      settlement_date: 2026-02-15
+      currency: USD
+      amount: 1000000
+      product_id: PROD-LOAN-001
+
+expected:
+  journals:
+    - journal_id: JNL-007-001
+      accounting_date: 2026-02-15
+      entity_id: ENT-SPC-001
+      lines:
+        - account_code: 111000
+          side: debit
+          amount: 1000000
+          currency: USD
+        - account_code: 121000
+          side: credit
+          amount: 1000000
+          currency: USD
+          product_id: PROD-LOAN-001
+  balances:
+    as_of: 2026-02-15
+    by_account:
+      - account_code: 111000
+        amount: 4042000
+        currency: USD
+      - account_code: 121000
+        amount: 6000000
+        currency: USD
+    by_product:
+      - product_id: PROD-LOAN-001
+        principal_outstanding: 6000000
+        accrued_interest: 0
+        carrying_amount: 6000000
+

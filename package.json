@@ -1,0 +1,17 @@
+{
+  "name": "spc",
+  "private": true,
+  "packageManager": "pnpm@10.0.0",
+  "scripts": {
+    "build": "turbo build",
+    "dev": "turbo dev",
+    "lint": "turbo lint",
+    "test": "turbo test",
+    "db:generate": "pnpm --filter @spc/db drizzle-kit generate",
+    "db:migrate": "pnpm --filter @spc/db drizzle-kit migrate"
+  },
+  "devDependencies": {
+    "pnpm": "^10.33.2",
+    "turbo": "^2.0.0"
+  }
+}

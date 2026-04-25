@@ -1,0 +1,120 @@
+scenario:
+  id: SCN-001
+  code: scenario-001-fund-subscription
+  name: Investor subscription into fund
+  description: Two investors subscribe capital into the fund in USD.
+  accounting_standard: K-GAAP-General
+  base_currency: USD
+  reporting_currencies:
+    - USD
+    - KRW
+  references:
+    master_common: /Users/tooning/spc/fixtures/master/common.yaml
+    master_coa: /Users/tooning/spc/fixtures/master/coa.yaml
+    exchange_rates: /Users/tooning/spc/fixtures/master/exchange-rates.yaml
+
+actors:
+  tenant_id: TENANT-DEMO-001
+  book_code: FUND_BOOK
+  entity_id: ENT-FUND-001
+  manager_entity_id: ENT-MGR-001
+  investors:
+    - INV-001
+    - INV-002
+
+inputs:
+  events:
+    - event_id: EVT-001-001
+      event_type: fund_subscription_cash_receipt
+      trade_date: 2026-01-02
+      accounting_date: 2026-01-02
+      settlement_date: 2026-01-02
+      currency: USD
+      amount: 6000000
+      investor_id: INV-001
+      description: Alpha Pension Fund subscription cash receipt
+
+    - event_id: EVT-001-002
+      event_type: fund_subscription_cash_receipt
+      trade_date: 2026-01-02
+      accounting_date: 2026-01-02
+      settlement_date: 2026-01-02
+      currency: USD
+      amount: 4000000
+      investor_id: INV-002
+      description: Beta Insurance subscription cash receipt
+
+expected:
+  journals:
+    - journal_id: JNL-001-001
+      accounting_date: 2026-01-02
+      entity_id: ENT-FUND-001
+      lines:
+        - account_code: 111000
+          side: debit
+          amount: 6000000
+          currency: USD
+          investor_id: INV-001
+        - account_code: 311000
+          side: credit
+          amount: 6000000
+          currency: USD
+          investor_id: INV-001
+
+    - journal_id: JNL-001-002
+      accounting_date: 2026-01-02
+      entity_id: ENT-FUND-001
+      lines:
+        - account_code: 111000
+          side: debit
+          amount: 4000000
+          currency: USD
+          investor_id: INV-002
+        - account_code: 311000
+          side: credit
+          amount: 4000000
+          currency: USD
+          investor_id: INV-002
+
+  balances:
+    as_of: 2026-01-02
+    by_account:
+      - account_code: 111000
+        amount: 10000000
+        currency: USD
+      - account_code: 311000
+        amount: 10000000
+        currency: USD
+    by_investor:
+      - investor_id: INV-001
+        paid_in_capital: 6000000
+        ownership_ratio: 0.60
+      - investor_id: INV-002
+        paid_in_capital: 4000000
+        ownership_ratio: 0.40
+
+  statements:
+    bs:
+      as_of: 2026-01-31
+      assets:
+        cash_and_cash_equivalents: 10000000
+      liabilities: {}
+      equity:
+        paid_in_capital: 10000000
+    pl:
+      period_start: 2026-01-01
+      period_end: 2026-01-31
+      revenue: {}
+      expense: {}
+      net_income: 0
+    cf:
+      period_start: 2026-01-01
+      period_end: 2026-01-31
+      operating_cash_flow: 0
+      investing_cash_flow: 0
+      financing_cash_flow: 10000000
+      net_change_in_cash: 10000000
+
+notes:
+  - Pro-rata investor ownership is established at subscription.
+  - No profit allocation is recognized in this scenario.

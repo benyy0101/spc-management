@@ -1,0 +1,82 @@
+metadata:
+  version: 1
+  description: Scenario catalog for TDD fixtures
+
+scenarios:
+  - id: SCN-001
+    code: scenario-001-fund-subscription
+    name: Investor subscription into fund
+    priority: 1
+    status: planned
+
+  - id: SCN-002
+    code: scenario-002-fund-to-spc
+    name: Fund capital contribution into SPC
+    priority: 1
+    status: planned
+
+  - id: SCN-003
+    code: scenario-003-asset-acquisition
+    name: SPC asset acquisition
+    priority: 1
+    status: planned
+
+  - id: SCN-004
+    code: scenario-004-borrowing-drawdown
+    name: SPC borrowing drawdown
+    priority: 1
+    status: planned
+
+  - id: SCN-005
+    code: scenario-005-interest-accrual
+    name: Month-end interest accrual
+    priority: 1
+    status: draft
+
+  - id: SCN-006
+    code: scenario-006-interest-receipt
+    name: Interest cash receipt
+    priority: 1
+    status: draft
+
+  - id: SCN-007
+    code: scenario-007-principal-repayment
+    name: Partial principal repayment
+    priority: 1
+    status: draft
+
+  - id: SCN-008
+    code: scenario-008-fair-value-adjustment
+    name: Fair value adjustment
+    priority: 2
+    status: draft
+
+  - id: SCN-009
+    code: scenario-009-impairment
+    name: Impairment recognition
+    priority: 2
+    status: draft
+
+  - id: SCN-010
+    code: scenario-010-foreign-exchange
+    name: Foreign exchange remeasurement
+    priority: 2
+    status: draft
+
+  - id: SCN-011
+    code: scenario-011-cash-waterfall
+    name: Cash waterfall allocation
+    priority: 2
+    status: draft
+
+  - id: SCN-012
+    code: scenario-012-month-close
+    name: Month-end close and statements
+    priority: 1
+    status: draft
+
+  - id: SCN-013
+    code: scenario-013-investor-allocation
+    name: Investor allocation report
+    priority: 1
+    status: draft

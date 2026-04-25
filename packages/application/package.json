@@ -1,0 +1,17 @@
+{
+  "name": "@spc/application",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "lint": "tsc -p tsconfig.json --noEmit",
+    "test": "node --import tsx --test ./src/**/*.test.ts"
+  },
+  "dependencies": {
+    "@spc/domain": "workspace:*"
+  },
+  "devDependencies": {
+    "tsx": "^4.20.3",
+    "typescript": "^5.8.3"
+  }
+}

@@ -1,0 +1,25 @@
+metadata:
+  version: 1
+  description: Baseline exchange rates for fixture scenarios
+  base_currency: USD
+
+rates:
+  - date: 2026-01-02
+    from: USD
+    to: KRW
+    rate: 1350.00
+
+  - date: 2026-01-31
+    from: USD
+    to: KRW
+    rate: 1365.00
+
+  - date: 2026-02-28
+    from: USD
+    to: KRW
+    rate: 1372.00
+
+  - date: 2026-03-31
+    from: USD
+    to: KRW
+    rate: 1380.00

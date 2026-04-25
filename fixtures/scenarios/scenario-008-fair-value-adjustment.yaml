@@ -1,0 +1,49 @@
+scenario:
+  id: SCN-008
+  code: scenario-008-fair-value-adjustment
+  name: Fair value adjustment
+  description: The SPC recognizes an upward fair value adjustment on an investment position.
+  accounting_standard: K-GAAP-General
+  base_currency: USD
+
+actors:
+  tenant_id: TENANT-DEMO-001
+  book_code: SPC_BOOK
+  entity_id: ENT-SPC-001
+  product_id: PROD-EQUITY-001
+
+inputs:
+  events:
+    - event_id: EVT-008-001
+      event_type: fair_value_adjustment
+      trade_date: 2026-02-28
+      accounting_date: 2026-02-28
+      settlement_date: 2026-02-28
+      currency: USD
+      amount: 50000
+      product_id: PROD-EQUITY-001
+
+expected:
+  journals:
+    - journal_id: JNL-008-001
+      accounting_date: 2026-02-28
+      entity_id: ENT-SPC-001
+      lines:
+        - account_code: 123000
+          side: debit
+          amount: 50000
+          currency: USD
+        - account_code: 421000
+          side: credit
+          amount: 50000
+          currency: USD
+  balances:
+    as_of: 2026-02-28
+    by_account:
+      - account_code: 123000
+        amount: 50000
+        currency: USD
+      - account_code: 421000
+        amount: 50000
+        currency: USD
+

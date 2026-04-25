@@ -1,0 +1,78 @@
+scenario:
+  id: SCN-005
+  code: scenario-005-interest-accrual
+  name: Month-end interest accrual
+  description: The SPC accrues monthly interest income on the loan receivable.
+  accounting_standard: K-GAAP-General
+  base_currency: USD
+  references:
+    master_common: /Users/tooning/spc/fixtures/master/common.yaml
+    master_coa: /Users/tooning/spc/fixtures/master/coa.yaml
+
+actors:
+  tenant_id: TENANT-DEMO-001
+  book_code: SPC_BOOK
+  entity_id: ENT-SPC-001
+  product_id: PROD-LOAN-001
+  contract_id: CTR-LOAN-001
+
+inputs:
+  calculation_basis:
+    interest_method: simple_interest
+    day_count_convention: ACT_360
+    accrual_period_start: 2026-01-05
+    accrual_period_end: 2026-01-31
+    accrual_days: 27
+    principal_amount: 7000000
+    annual_interest_rate: 0.08
+    accrued_interest_amount: 42000
+  events:
+    - event_id: EVT-005-001
+      event_type: interest_accrual
+      trade_date: 2026-01-31
+      accounting_date: 2026-01-31
+      settlement_date: 2026-01-31
+      currency: USD
+      amount: 42000
+      product_id: PROD-LOAN-001
+      contract_id: CTR-LOAN-001
+
+expected:
+  journals:
+    - journal_id: JNL-005-001
+      accounting_date: 2026-01-31
+      entity_id: ENT-SPC-001
+      lines:
+        - account_code: 131000
+          side: debit
+          amount: 42000
+          currency: USD
+          product_id: PROD-LOAN-001
+        - account_code: 411000
+          side: credit
+          amount: 42000
+          currency: USD
+          product_id: PROD-LOAN-001
+  balances:
+    as_of: 2026-01-31
+    by_account:
+      - account_code: 131000
+        amount: 42000
+        currency: USD
+      - account_code: 411000
+        amount: 42000
+        currency: USD
+    by_product:
+      - product_id: PROD-LOAN-001
+        principal_outstanding: 7000000
+        accrued_interest: 42000
+        carrying_amount: 7042000
+  statements:
+    pl:
+      period_start: 2026-01-01
+      period_end: 2026-01-31
+      revenue:
+        interest_income: 42000
+      expense: {}
+      net_income: 42000
+
