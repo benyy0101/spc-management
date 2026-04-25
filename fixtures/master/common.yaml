@@ -31,12 +31,56 @@ entities:
     type: spc
     functional_currency: USD
 
+  spc_2:
+    id: ENT-SPC-002
+    code: OCEAN-SPC-002
+    name: Ocean Shipping SPC 002
+    type: spc
+    functional_currency: USD
+
+  spc_3:
+    id: ENT-SPC-003
+    code: OCEAN-SPC-003
+    name: Ocean Shipping SPC 003
+    type: spc
+    functional_currency: USD
+
+  feeder:
+    id: ENT-FEEDER-001
+    code: OCEAN-FEEDER-I
+    name: Ocean Feeder Fund I
+    type: fund
+    functional_currency: USD
+
+  holdco:
+    id: ENT-HOLDCO-001
+    code: OCEAN-HOLDCO-001
+    name: Ocean HoldCo 001
+    type: corporate
+    functional_currency: USD
+
+  servicer:
+    id: ENT-SERVICER-001
+    code: HARBOR-SERVICING
+    name: Harbor Loan Servicing Co
+    type: corporate
+    functional_currency: USD
+
+  broker:
+    id: ENT-BROKER-001
+    code: BLUEHARBOR-BROKER
+    name: BlueHarbor Securities
+    type: corporate
+    functional_currency: USD
+
 investors:
   - id: INV-001
     code: LP-ALPHA
     name: Alpha Pension Fund
     type: institutional
     commitment_currency: USD
+    commitment_amount: 60000000
+    paid_in_amount: 42000000
     ownership_ratio: 0.60
 
   - id: INV-002
@@ -44,7 +88,45 @@ investors:
     name: Beta Insurance
     type: institutional
     commitment_currency: USD
+    commitment_amount: 40000000
+    paid_in_amount: 28000000
     ownership_ratio: 0.40
+
+  - id: INV-003
+    code: LP-GAMMA
+    name: Gamma Sovereign Capital
+    type: institutional
+    commitment_currency: USD
+    commitment_amount: 30000000
+    paid_in_amount: 0
+    ownership_ratio: 0.00
+
+  - id: INV-004
+    code: LP-DELTA
+    name: Delta Mutual Life
+    type: institutional
+    commitment_currency: USD
+    commitment_amount: 25000000
+    paid_in_amount: 0
+    ownership_ratio: 0.00
+
+  - id: INV-005
+    code: LP-EPSILON
+    name: Epsilon Family Office
+    type: institutional
+    commitment_currency: USD
+    commitment_amount: 15000000
+    paid_in_amount: 0
+    ownership_ratio: 0.00
+
+  - id: INV-006
+    code: LP-ZETA
+    name: Zeta Reinsurance
+    type: institutional
+    commitment_currency: USD
+    commitment_amount: 10000000
+    paid_in_amount: 0
+    ownership_ratio: 0.00
 
 products:
   - id: PROD-LOAN-001
@@ -71,6 +153,48 @@ products:
     product_type: equity
     currency: USD
 
+  - id: PROD-LOAN-002
+    code: SHIP-LOAN-B
+    name: Senior Ship Loan B
+    product_type: loan_receivable
+    currency: USD
+
+  - id: PROD-LOAN-003
+    code: WORKING-CAP-LOAN
+    name: Working Capital Loan
+    product_type: loan_receivable
+    currency: USD
+
+  - id: PROD-BOND-002
+    code: PORT-BOND-A
+    name: Port Infrastructure Bond A
+    product_type: bond
+    currency: USD
+
+  - id: PROD-BOND-003
+    code: TERM-NOTE-2028
+    name: Term Note 2028
+    product_type: bond
+    currency: USD
+
+  - id: PROD-FUND-SEC-002
+    code: FUND-UNIT-B
+    name: Fund Beneficiary Unit B
+    product_type: beneficiary_certificate
+    currency: USD
+
+  - id: PROD-EQUITY-002
+    code: SPC-EQUITY-B
+    name: SPC Equity B
+    product_type: equity
+    currency: USD
+
+  - id: PROD-SWAP-001
+    code: IRS-USD-001
+    name: USD Fixed-Floating IRS
+    product_type: derivative
+    currency: USD
+
 contracts:
   - id: CTR-LOAN-001
     code: LOAN-AGREEMENT-A
@@ -93,6 +217,79 @@ contracts:
     issuer_entity_id: ENT-SPC-001
     currency: USD
 
+  - id: CTR-LOAN-002
+    code: LOAN-AGREEMENT-B
+    contract_type: loan_agreement
+    linked_product_id: PROD-LOAN-002
+    lender_entity_id: ENT-SPC-002
+    borrower_name: Pacific Tanker Holdings Ltd
+    currency: USD
+    principal_amount: 8500000
+    interest_rate_type: floating
+    interest_rate: 0.0675
+    day_count_convention: ACT_360
+    maturity_date: 2029-06-30
+
+  - id: CTR-LOAN-003
+    code: WORKING-CAP-LINE-01
+    contract_type: loan_agreement
+    linked_product_id: PROD-LOAN-003
+    lender_entity_id: ENT-SPC-003
+    borrower_name: BlueHarbor Operating Co
+    currency: USD
+    principal_amount: 2500000
+    interest_rate_type: fixed
+    interest_rate: 0.0725
+    day_count_convention: ACT_360
+    maturity_date: 2027-09-30
+
+  - id: CTR-BOND-001
+    code: PORT-BOND-A-2028
+    contract_type: bond_investment
+    linked_product_id: PROD-BOND-002
+    borrower_name: Eastern Port Authority
+    currency: USD
+    principal_amount: 5000000
+    interest_rate_type: fixed
+    interest_rate: 0.059
+    day_count_convention: ACT_365
+    maturity_date: 2028-12-31
+
+  - id: CTR-BOND-002
+    code: TERM-NOTE-2028-A
+    contract_type: bond_investment
+    linked_product_id: PROD-BOND-003
+    borrower_name: Meridian Shipping Finance
+    currency: USD
+    principal_amount: 3200000
+    interest_rate_type: fixed
+    interest_rate: 0.061
+    day_count_convention: ACT_365
+    maturity_date: 2028-05-31
+
+  - id: CTR-FUND-SEC-001
+    code: FUND-UNIT-B-SUB
+    contract_type: beneficiary_subscription
+    linked_product_id: PROD-FUND-SEC-002
+    investor_entity_id: ENT-FEEDER-001
+    issuer_entity_id: ENT-FUND-001
+    currency: USD
+
+  - id: CTR-SPC-FUND-002
+    code: FUND-SPC2-EQUITY-SUB
+    contract_type: equity_subscription
+    linked_product_id: PROD-EQUITY-002
+    investor_entity_id: ENT-FUND-001
+    issuer_entity_id: ENT-SPC-002
+    currency: USD
+
+  - id: CTR-SWAP-001
+    code: IRS-USD-001-MASTER
+    contract_type: other
+    linked_product_id: PROD-SWAP-001
+    borrower_name: Global Derivatives Bank
+    currency: USD
+
 dimensions:
   accounting_basis:
     - code: KGAAP_GENERAL
@@ -102,6 +299,16 @@ dimensions:
       entity_id: ENT-FUND-001
     - code: SPC_BOOK
       entity_id: ENT-SPC-001
+    - code: FEEDER_BOOK
+      entity_id: ENT-FEEDER-001
+    - code: SPC2_BOOK
+      entity_id: ENT-SPC-002
+    - code: SPC3_BOOK
+      entity_id: ENT-SPC-003
+    - code: HOLDCO_BOOK
+      entity_id: ENT-HOLDCO-001
+    - code: SERVICER_BOOK
+      entity_id: ENT-SERVICER-001
   currencies:
     - USD
     - KRW

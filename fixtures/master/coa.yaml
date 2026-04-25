@@ -38,6 +38,21 @@ accounts:
     type: asset
     statement: BS
 
+  - code: 132000
+    name: Fees Receivable
+    type: asset
+    statement: BS
+
+  - code: 133000
+    name: Derivative Assets
+    type: asset
+    statement: BS
+
+  - code: 141000
+    name: Prepaid Expenses
+    type: asset
+    statement: BS
+
   - code: 139000
     name: Allowance for Credit Losses
     type: contra_asset
@@ -48,8 +63,28 @@ accounts:
     type: liability
     statement: BS
 
+  - code: 212000
+    name: Bonds Payable
+    type: liability
+    statement: BS
+
   - code: 213000
     name: Accrued Expenses
+    type: liability
+    statement: BS
+
+  - code: 214000
+    name: Derivative Liabilities
+    type: liability
+    statement: BS
+
+  - code: 215000
+    name: Management Fees Payable
+    type: liability
+    statement: BS
+
+  - code: 216000
+    name: Withholding Tax Payable
     type: liability
     statement: BS
 
@@ -68,6 +103,11 @@ accounts:
     type: equity
     statement: BS
 
+  - code: 313000
+    name: Other Comprehensive Income
+    type: equity
+    statement: BS
+
   - code: 411000
     name: Interest Income
     type: revenue
@@ -75,6 +115,16 @@ accounts:
 
   - code: 412000
     name: Fee Income
+    type: revenue
+    statement: PL
+
+  - code: 413000
+    name: Dividend Income
+    type: revenue
+    statement: PL
+
+  - code: 414000
+    name: Realized Gain on Disposal
     type: revenue
     statement: PL
 
@@ -108,32 +158,147 @@ accounts:
     type: expense
     statement: PL
 
+  - code: 515000
+    name: Custody Expense
+    type: expense
+    statement: PL
+
+  - code: 516000
+    name: Professional Fee Expense
+    type: expense
+    statement: PL
+
+  - code: 517000
+    name: Tax Expense
+    type: expense
+    statement: PL
+
 statement_mapping:
-  BS:
-    assets:
-      - 111000
-      - 113000
-      - 121000
-      - 122000
-      - 123000
-      - 124000
-      - 131000
-      - 139000
-    liabilities:
-      - 211000
-      - 213000
-      - 221000
-    equity:
-      - 311000
-      - 312000
-  PL:
-    revenue:
-      - 411000
-      - 412000
-      - 421000
-      - 431000
-    expense:
-      - 511000
-      - 512000
-      - 513000
-      - 514000
+  rows:
+    - statement: BS
+      line_code: CASH_AND_EQUIVALENTS
+      line_name: Cash and Cash Equivalents
+      display_order: 10
+      accounts:
+        - 111000
+        - 113000
+    - statement: BS
+      line_code: LOANS_AND_RECEIVABLES
+      line_name: Loans and Receivables
+      display_order: 20
+      accounts:
+        - 121000
+        - 131000
+        - 132000
+        - 139000
+    - statement: BS
+      line_code: INVESTMENTS
+      line_name: Investments
+      display_order: 30
+      accounts:
+        - 122000
+        - 123000
+        - 124000
+    - statement: BS
+      line_code: DERIVATIVE_ASSETS
+      line_name: Derivative Assets
+      display_order: 40
+      accounts:
+        - 133000
+    - statement: BS
+      line_code: PREPAIDS_AND_OTHER_ASSETS
+      line_name: Prepaids and Other Assets
+      display_order: 50
+      accounts:
+        - 141000
+    - statement: BS
+      line_code: INTEREST_BEARING_LIABILITIES
+      line_name: Interest-Bearing Liabilities
+      display_order: 60
+      accounts:
+        - 211000
+        - 212000
+    - statement: BS
+      line_code: ACCRUED_AND_OTHER_PAYABLES
+      line_name: Accrued and Other Payables
+      display_order: 70
+      accounts:
+        - 213000
+        - 215000
+        - 216000
+        - 221000
+    - statement: BS
+      line_code: DERIVATIVE_LIABILITIES
+      line_name: Derivative Liabilities
+      display_order: 80
+      accounts:
+        - 214000
+    - statement: BS
+      line_code: EQUITY
+      line_name: Equity
+      display_order: 90
+      accounts:
+        - 311000
+        - 312000
+        - 313000
+    - statement: PL
+      line_code: INVESTMENT_INCOME
+      line_name: Investment Income
+      display_order: 10
+      accounts:
+        - 411000
+        - 413000
+    - statement: PL
+      line_code: FEE_AND_OTHER_OPERATING_INCOME
+      line_name: Fee and Other Operating Income
+      display_order: 20
+      accounts:
+        - 412000
+        - 414000
+        - 421000
+        - 431000
+    - statement: PL
+      line_code: FINANCING_COSTS
+      line_name: Financing Costs
+      display_order: 30
+      accounts:
+        - 511000
+    - statement: PL
+      line_code: OPERATING_EXPENSES
+      line_name: Operating Expenses
+      display_order: 40
+      accounts:
+        - 512000
+        - 514000
+        - 515000
+        - 516000
+    - statement: PL
+      line_code: CREDIT_AND_TAX_COSTS
+      line_name: Credit and Tax Costs
+      display_order: 50
+      accounts:
+        - 513000
+        - 517000
+    - statement: CF
+      line_code: OPERATING_CASH_FLOW
+      line_name: Operating Cash Flow
+      display_order: 10
+      accounts:
+        - 111000
+    - statement: CF
+      line_code: INVESTING_CASH_FLOW
+      line_name: Investing Cash Flow
+      display_order: 20
+      accounts:
+        - 121000
+        - 122000
+        - 123000
+        - 124000
+    - statement: CF
+      line_code: FINANCING_CASH_FLOW
+      line_name: Financing Cash Flow
+      display_order: 30
+      accounts:
+        - 211000
+        - 212000
+        - 311000

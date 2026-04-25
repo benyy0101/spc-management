@@ -32,10 +32,10 @@ export default async function JournalsPage({
     <div className="space-y-8">
       <PageHeader
         eyebrow={pick(locale, { en: "Journals", ko: "전표" })}
-        title={pick(locale, { en: "Journal Review", ko: "전표 검토" })}
+        title={pick(locale, { en: "Journal Review", ko: "전표 조회" })}
         description={pick(locale, {
-          en: "This view will become the main accounting review surface, backed by GET /journals and GET /journals/:id.",
-          ko: "이 화면은 GET /journals와 GET /journals/:id를 기반으로 전표 검토의 핵심 화면이 됩니다.",
+          en: "Review created journals and check their status, source event, and detail lines.",
+          ko: "생성된 전표를 조회하고 상태, 원천 이벤트, 상세 라인을 확인합니다.",
         })}
       />
       <Card className="border-border/70 shadow-sm">

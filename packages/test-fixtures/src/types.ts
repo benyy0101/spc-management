@@ -30,6 +30,8 @@ export type CommonMasterFixture = {
     name: string;
     type: string;
     commitment_currency: string;
+    commitment_amount?: number;
+    paid_in_amount?: number;
     ownership_ratio: number;
   }>;
   products: Array<{

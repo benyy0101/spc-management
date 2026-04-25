@@ -71,7 +71,15 @@ export const seedCommonMaster = async (
   const common = loadCommonMasterFixture(commonFixturePath);
   const coa = loadScenarioFixture(coaFixturePath) as unknown as {
     accounts: Array<{ code: string; name: string; type: string; statement: "BS" | "PL" | "CF" }>;
-    statement_mapping?: unknown;
+    statement_mapping?: {
+      rows?: Array<{
+        statement: "BS" | "PL" | "CF";
+        line_code: string;
+        line_name: string;
+        display_order: number;
+        accounts: string[];
+      }>;
+    };
   };
   const rates = loadScenarioFixture(exchangeRatesPath) as unknown as {
     rates: Array<{ date: string; from: string; to: string; rate: number }>;
@@ -260,6 +268,28 @@ export const seedCommonMaster = async (
     aliasMap.accounts[account.code] = row.id;
   }
 
+  const statementMappingRows = coa.statement_mapping?.rows ?? [];
+  for (const mapping of statementMappingRows) {
+    for (const accountCode of mapping.accounts) {
+      const accountId = aliasMap.accounts[accountCode];
+      if (!accountId) {
+        throw new Error(`Missing account alias for statement mapping account ${accountCode}`);
+      }
+
+      await db
+        .insert(statementMappings)
+        .values({
+          tenantId: tenant.id,
+          accountId,
+          statementType: mapping.statement,
+          lineCode: mapping.line_code,
+          lineName: mapping.line_name,
+          displayOrder: mapping.display_order,
+        })
+        .onConflictDoNothing();
+    }
+  }
+
   for (const rate of rates.rates) {
     await db
       .insert(fxRates)
@@ -293,8 +323,8 @@ export const seedCommonMaster = async (
         tenantId: tenant.id,
         fundEntityId,
         investorId: aliasMap.investors[investor.id],
-        commitmentAmount: "0",
-        paidInAmount: "0",
+        commitmentAmount: String(investor.commitment_amount ?? 0),
+        paidInAmount: String(investor.paid_in_amount ?? 0),
         ownershipRatio: investor.ownership_ratio.toString(),
         effectiveFrom: new Date("2026-01-01"),
         effectiveTo: null,
