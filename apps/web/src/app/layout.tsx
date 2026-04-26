@@ -4,7 +4,7 @@ import { getServerLocale } from "@/lib/i18n-server";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "SPC Accounting Web",
+  title: "SPC 회계 업무",
   description: "Work screens for SPC accounting review and entry",
 };
 
