@@ -38,8 +38,19 @@ test("loadConfig throws when no database configuration is present", () => {
   assert.throws(
     () =>
       loadConfig({
+        NODE_ENV: "production",
         PORT: "3000",
       }),
     /DATABASE_URL or PGHOST\/PGPORT\/PGUSER\/PGPASSWORD\/PGDATABASE is required/,
   );
+});
+
+test("loadConfig falls back to local database in non-production", () => {
+  const config = loadConfig({
+    NODE_ENV: "development",
+    PORT: "3000",
+  });
+
+  assert.equal(config.port, 3000);
+  assert.equal(config.databaseUrl, "postgres://postgres:postgres@localhost:5432/spc");
 });

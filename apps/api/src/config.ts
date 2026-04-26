@@ -1,4 +1,5 @@
 const DEFAULT_PORT = 3000;
+const DEVELOPMENT_DATABASE_URL = "postgres://postgres:postgres@localhost:5432/spc";
 
 export type ApiConfig = {
   port: number;
@@ -25,7 +26,10 @@ const buildDatabaseUrlFromParts = (env: NodeJS.ProcessEnv): string | undefined =
 
 export const loadConfig = (env: NodeJS.ProcessEnv = process.env): ApiConfig => {
   const port = Number(env.PORT ?? DEFAULT_PORT);
-  const databaseUrl = env.DATABASE_URL ?? buildDatabaseUrlFromParts(env);
+  const databaseUrl =
+    env.DATABASE_URL ??
+    buildDatabaseUrlFromParts(env) ??
+    (env.NODE_ENV === "production" ? undefined : DEVELOPMENT_DATABASE_URL);
 
   if (!databaseUrl) {
     throw new Error("DATABASE_URL or PGHOST/PGPORT/PGUSER/PGPASSWORD/PGDATABASE is required");
