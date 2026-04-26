@@ -33,6 +33,23 @@ export type EntityReadModel = {
   status: string;
 };
 
+export type CreateEntityInput = {
+  tenantId: string;
+  code: string;
+  name: string;
+  entityType: "asset_manager" | "fund" | "spc" | "corporate" | "other";
+  functionalCurrency: string;
+  status?: "active" | "inactive";
+};
+
+export type UpdateEntityInput = {
+  code?: string;
+  name?: string;
+  entityType?: "asset_manager" | "fund" | "spc" | "corporate" | "other";
+  functionalCurrency?: string;
+  status?: "active" | "inactive";
+};
+
 export type TenantReadModel = {
   id: string;
   code: string;

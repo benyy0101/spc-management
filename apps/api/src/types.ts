@@ -11,6 +11,7 @@ import type {
   ClosePeriodReadModel,
   ContractReadModel,
   CreateClosePeriodInput,
+  CreateEntityInput,
   CreateManualJournalInput,
   CreateStatementMappingInput,
   EntityReadModel,
@@ -35,6 +36,7 @@ import type {
   TrialBalanceFilters,
   TrialBalanceReadModel,
   UpdateClosePeriodStatusInput,
+  UpdateEntityInput,
   UpdateStatementMappingInput,
 } from "./read-models";
 
@@ -45,6 +47,16 @@ export type PostAccountingEventHandler = (
 export type ListTenantsHandler = () => Promise<TenantReadModel[]>;
 
 export type ListEntitiesHandler = (tenantId: string) => Promise<EntityReadModel[]>;
+
+export type CreateEntityHandler = (
+  input: CreateEntityInput,
+) => Promise<EntityReadModel>;
+
+export type UpdateEntityHandler = (
+  tenantId: string,
+  entityId: string,
+  input: UpdateEntityInput,
+) => Promise<EntityReadModel | null>;
 
 export type ListAccountsHandler = (tenantId: string) => Promise<AccountReadModel[]>;
 

@@ -1,4 +1,4 @@
-const DEFAULT_PORT = 3000;
+const DEFAULT_PORT = 4000;
 const DEVELOPMENT_DATABASE_URL = "postgres://postgres:postgres@localhost:5432/spc";
 
 export type ApiConfig = {

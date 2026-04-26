@@ -44,11 +44,54 @@ const defaultValues = {
   bookCode: "SPC_BOOK",
 };
 
+function generateEventId() {
+  const now = new Date();
+  const datePart = `${String(now.getFullYear()).slice(-2)}${String(now.getMonth() + 1).padStart(2, "0")}${String(now.getDate()).padStart(2, "0")}`;
+  const randomPart = crypto
+    .getRandomValues(new Uint32Array(1))[0]
+    .toString(36)
+    .toUpperCase()
+    .padStart(6, "0")
+    .slice(-6);
+
+  return `${datePart}-${randomPart}`;
+}
+
+function formatTenantLabel(tenant: TenantReference) {
+  return `${tenant.code} · ${tenant.name}`;
+}
+
+function formatEntityLabel(entity: EntityReference) {
+  return `${entity.code} · ${entity.name}`;
+}
+
+function formatProductLabel(product: ProductReference) {
+  return `${product.code} · ${product.name}`;
+}
+
+function formatContractLabel(contract: ContractReference) {
+  return `${contract.code} · ${contract.contractType}`;
+}
+
+function formatEventTypeLabel(
+  locale: Locale,
+  eventType: "loan_origination" | "interest_accrual" | "principal_repayment",
+) {
+  switch (eventType) {
+    case "loan_origination":
+      return pick(locale, { en: "Loan Origination", ko: "대출 실행" });
+    case "interest_accrual":
+      return pick(locale, { en: "Interest Accrual", ko: "이자 발생" });
+    case "principal_repayment":
+      return pick(locale, { en: "Principal Repayment", ko: "원금 상환" });
+  }
+}
+
 export function NewEventForm({ locale }: { locale: Locale }) {
   const [eventType, setEventType] = useState<"loan_origination" | "interest_accrual" | "principal_repayment">(
     "interest_accrual",
   );
-  const [eventId, setEventId] = useState(() => `WEB-${crypto.randomUUID()}`);
+  const [eventId, setEventId] = useState(() => generateEventId());
   const [tenantId, setTenantId] = useState("");
   const [entityId, setEntityId] = useState("");
   const [productId, setProductId] = useState("");
@@ -240,7 +283,7 @@ export function NewEventForm({ locale }: { locale: Locale }) {
         journalCount: result.journalCount,
         duplicate: result.skippedAsDuplicate,
       });
-      setEventId(`WEB-${crypto.randomUUID()}`);
+      setEventId(generateEventId());
     } catch (error) {
       setState({
         kind: "error",
@@ -269,12 +312,14 @@ export function NewEventForm({ locale }: { locale: Locale }) {
               <Label htmlFor="eventType">{pick(locale, { en: "Transaction Type", ko: "거래 유형" })}</Label>
               <Select value={eventType} onValueChange={(value) => setEventType(value as typeof eventType)}>
                 <SelectTrigger className="w-full">
-                  <SelectValue placeholder={pick(locale, { en: "Select a transaction type", ko: "거래 유형을 선택하세요" })} />
+                  <SelectValue placeholder={pick(locale, { en: "Select a transaction type", ko: "거래 유형을 선택하세요" })}>
+                    {formatEventTypeLabel(locale, eventType)}
+                  </SelectValue>
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="loan_origination">{pick(locale, { en: "Loan Origination", ko: "대출 실행" })}</SelectItem>
-                  <SelectItem value="interest_accrual">{pick(locale, { en: "Interest Accrual", ko: "이자 발생" })}</SelectItem>
-                  <SelectItem value="principal_repayment">{pick(locale, { en: "Principal Repayment", ko: "원금 상환" })}</SelectItem>
+                  <SelectItem value="loan_origination">{formatEventTypeLabel(locale, "loan_origination")}</SelectItem>
+                  <SelectItem value="interest_accrual">{formatEventTypeLabel(locale, "interest_accrual")}</SelectItem>
+                  <SelectItem value="principal_repayment">{formatEventTypeLabel(locale, "principal_repayment")}</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -283,7 +328,7 @@ export function NewEventForm({ locale }: { locale: Locale }) {
                 <Label htmlFor="eventId">{pick(locale, { en: "Transaction Number", ko: "거래 번호" })}</Label>
                 <button
                   type="button"
-                  onClick={() => setEventId(`WEB-${crypto.randomUUID()}`)}
+                  onClick={() => setEventId(generateEventId())}
                   className={cn(buttonVariants({ variant: "ghost", size: "sm" }), "h-auto px-0 text-xs")}
                 >
                   <RotateCcw className="size-3.5" />
@@ -313,12 +358,14 @@ export function NewEventForm({ locale }: { locale: Locale }) {
                 disabled={tenants.tenants.length === 0}
               >
                 <SelectTrigger className="w-full">
-                  <SelectValue placeholder={pick(locale, { en: "Select a company", ko: "회사를 선택하세요" })} />
+                  <SelectValue placeholder={pick(locale, { en: "Select a company", ko: "회사를 선택하세요" })}>
+                    {selectedTenant ? formatTenantLabel(selectedTenant) : undefined}
+                  </SelectValue>
                 </SelectTrigger>
                 <SelectContent>
                   {tenants.tenants.map((tenant) => (
                     <SelectItem key={tenant.id} value={tenant.id}>
-                      {tenant.code} · {tenant.name}
+                      {formatTenantLabel(tenant)}
                     </SelectItem>
                   ))}
                 </SelectContent>
@@ -333,12 +380,20 @@ export function NewEventForm({ locale }: { locale: Locale }) {
                 disabled={!tenantId || references.entities.length === 0}
               >
                 <SelectTrigger className="w-full">
-                  <SelectValue placeholder={tenantId ? pick(locale, { en: "Select an accounting unit", ko: "회계 단위를 선택하세요" }) : pick(locale, { en: "Select a company first", ko: "먼저 회사를 선택하세요" })} />
+                  <SelectValue
+                    placeholder={
+                      tenantId
+                        ? pick(locale, { en: "Select an accounting unit", ko: "회계 단위를 선택하세요" })
+                        : pick(locale, { en: "Select a company first", ko: "먼저 회사를 선택하세요" })
+                    }
+                  >
+                    {selectedEntity ? formatEntityLabel(selectedEntity) : undefined}
+                  </SelectValue>
                 </SelectTrigger>
                 <SelectContent>
                   {references.entities.map((entity) => (
                     <SelectItem key={entity.id} value={entity.id}>
-                      {entity.code} · {entity.name}
+                      {formatEntityLabel(entity)}
                     </SelectItem>
                   ))}
                 </SelectContent>
@@ -356,12 +411,20 @@ export function NewEventForm({ locale }: { locale: Locale }) {
                 disabled={!tenantId || references.products.length === 0}
               >
                 <SelectTrigger className="w-full">
-                  <SelectValue placeholder={tenantId ? pick(locale, { en: "Select a product", ko: "상품을 선택하세요" }) : pick(locale, { en: "Select a company first", ko: "먼저 회사를 선택하세요" })} />
+                  <SelectValue
+                    placeholder={
+                      tenantId
+                        ? pick(locale, { en: "Select a product", ko: "상품을 선택하세요" })
+                        : pick(locale, { en: "Select a company first", ko: "먼저 회사를 선택하세요" })
+                    }
+                  >
+                    {selectedProduct ? formatProductLabel(selectedProduct) : undefined}
+                  </SelectValue>
                 </SelectTrigger>
                 <SelectContent>
                   {references.products.map((product) => (
                     <SelectItem key={product.id} value={product.id}>
-                      {product.code} · {product.name}
+                      {formatProductLabel(product)}
                     </SelectItem>
                   ))}
                 </SelectContent>
@@ -376,12 +439,20 @@ export function NewEventForm({ locale }: { locale: Locale }) {
                 disabled={!tenantId || contractOptions.length === 0}
               >
                 <SelectTrigger className="w-full">
-                  <SelectValue placeholder={tenantId ? pick(locale, { en: "Select a contract", ko: "계약을 선택하세요" }) : pick(locale, { en: "Select a company first", ko: "먼저 회사를 선택하세요" })} />
+                  <SelectValue
+                    placeholder={
+                      tenantId
+                        ? pick(locale, { en: "Select a contract", ko: "계약을 선택하세요" })
+                        : pick(locale, { en: "Select a company first", ko: "먼저 회사를 선택하세요" })
+                    }
+                  >
+                    {selectedContract ? formatContractLabel(selectedContract) : undefined}
+                  </SelectValue>
                 </SelectTrigger>
                 <SelectContent>
                   {contractOptions.map((contract) => (
                     <SelectItem key={contract.id} value={contract.id}>
-                      {contract.code} · {contract.contractType}
+                      {formatContractLabel(contract)}
                     </SelectItem>
                   ))}
                 </SelectContent>
@@ -427,10 +498,10 @@ export function NewEventForm({ locale }: { locale: Locale }) {
               {pick(locale, { en: "Selected Details", ko: "선택 내용" })}
             </div>
             <p className="mt-2 leading-6">
-              {selectedTenant ? `${selectedTenant.code}` : pick(locale, { en: "Select a company", ko: "회사 선택" })} /{" "}
-              {selectedEntity ? `${selectedEntity.code}` : pick(locale, { en: "Select an accounting unit", ko: "회계 단위 선택" })} /{" "}
-              {selectedProduct ? `${selectedProduct.code}` : pick(locale, { en: "Select a product", ko: "상품 선택" })} /{" "}
-              {selectedContract ? `${selectedContract.code}` : pick(locale, { en: "Select a contract", ko: "계약 선택" })}
+              {selectedTenant ? formatTenantLabel(selectedTenant) : pick(locale, { en: "Select a company", ko: "회사 선택" })} /{" "}
+              {selectedEntity ? formatEntityLabel(selectedEntity) : pick(locale, { en: "Select an accounting unit", ko: "회계 단위 선택" })} /{" "}
+              {selectedProduct ? formatProductLabel(selectedProduct) : pick(locale, { en: "Select a product", ko: "상품 선택" })} /{" "}
+              {selectedContract ? formatContractLabel(selectedContract) : pick(locale, { en: "Select a contract", ko: "계약 선택" })}
             </p>
           </div>
 

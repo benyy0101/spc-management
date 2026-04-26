@@ -19,6 +19,23 @@ export type EntityReference = {
   status: string;
 };
 
+export type CreateEntityInput = {
+  tenantId: string;
+  code: string;
+  name: string;
+  entityType: "asset_manager" | "fund" | "spc" | "corporate" | "other";
+  functionalCurrency: string;
+  status?: "active" | "inactive";
+};
+
+export type UpdateEntityInput = {
+  code?: string;
+  name?: string;
+  entityType?: "asset_manager" | "fund" | "spc" | "corporate" | "other";
+  functionalCurrency?: string;
+  status?: "active" | "inactive";
+};
+
 export type AccountReference = {
   id: string;
   tenantId: string;
@@ -72,6 +89,20 @@ function buildTenantQuery(tenantId: string) {
 
 export function listEntities(tenantId: string) {
   return apiRequest<ReferenceListResponse<EntityReference>>(`/entities${buildTenantQuery(tenantId)}`);
+}
+
+export function createEntity(input: CreateEntityInput) {
+  return apiRequest<EntityReference>("/entities", {
+    method: "POST",
+    body: input,
+  });
+}
+
+export function updateEntity(tenantId: string, entityId: string, input: UpdateEntityInput) {
+  return apiRequest<EntityReference>(`/entities/${entityId}${buildTenantQuery(tenantId)}`, {
+    method: "PATCH",
+    body: input,
+  });
 }
 
 export function listAccounts(tenantId: string) {

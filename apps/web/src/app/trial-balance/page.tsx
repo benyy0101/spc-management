@@ -1,4 +1,5 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { NativeSelect } from "@/components/ui/native-select";
 import { PageHeader } from "@/components/page-header";
@@ -46,23 +47,30 @@ export default async function TrialBalancePage({
           <CardDescription>{pick(locale, { en: "Select a company and date. The accounting unit is optional.", ko: "회사와 날짜를 선택하세요. 회계 단위는 선택 사항입니다." })}</CardDescription>
         </CardHeader>
         <CardContent>
-          <form className="grid gap-4 md:grid-cols-3">
-            <NativeSelect name="tenantId" defaultValue={tenantId}>
-              {tenants.items.map((tenant) => (
-                <option key={tenant.id} value={tenant.id}>
-                  {tenant.code} · {tenant.name}
-                </option>
-              ))}
-            </NativeSelect>
-            <NativeSelect name="entityId" defaultValue={entityId}>
-              <option value="">{pick(locale, { en: "All accounting units", ko: "전체 회계 단위" })}</option>
-              {entities.items.map((entity) => (
-                <option key={entity.id} value={entity.id}>
-                  {entity.code} · {entity.name}
-                </option>
-              ))}
-            </NativeSelect>
-            <Input name="asOf" type="date" defaultValue={asOf} />
+          <form className="space-y-4">
+            <div className="grid gap-4 md:grid-cols-3">
+              <NativeSelect name="tenantId" defaultValue={tenantId}>
+                {tenants.items.map((tenant) => (
+                  <option key={tenant.id} value={tenant.id}>
+                    {tenant.code} · {tenant.name}
+                  </option>
+                ))}
+              </NativeSelect>
+              <NativeSelect name="entityId" defaultValue={entityId}>
+                <option value="">{pick(locale, { en: "All accounting units", ko: "전체 회계 단위" })}</option>
+                {entities.items.map((entity) => (
+                  <option key={entity.id} value={entity.id}>
+                    {entity.code} · {entity.name}
+                  </option>
+                ))}
+              </NativeSelect>
+              <Input name="asOf" type="date" defaultValue={asOf} />
+            </div>
+            <div className="flex justify-end">
+              <Button type="submit">
+                {pick(locale, { en: "Search", ko: "조회" })}
+              </Button>
+            </div>
           </form>
         </CardContent>
       </Card>

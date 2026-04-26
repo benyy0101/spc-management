@@ -9,6 +9,7 @@ import {
   ReferenceDataNotFoundError,
 } from "./errors";
 import {
+  parseCreateEntityInput,
   parseApproveJournalInput,
   parseCreateManualJournalInput,
   parseCreateClosePeriodInput,
@@ -18,6 +19,7 @@ import {
   parseReverseJournalInput,
   parseRunAllocationInput,
   parseUpdateClosePeriodStatusInput,
+  parseUpdateEntityInput,
   parseUpdateStatementMappingInput,
 } from "./validation";
 import type {
@@ -27,6 +29,7 @@ import type {
   ListAuditLogsHandler,
   CreateManualJournalHandler,
   CreateClosePeriodHandler,
+  CreateEntityHandler,
   CreateStatementMappingHandler,
   GetBalanceSheetHandler,
   GetCashFlowHandler,
@@ -50,6 +53,7 @@ import type {
   ReverseJournalHandler,
   RunAllocationsHandler,
   UpdateClosePeriodStatusHandler,
+  UpdateEntityHandler,
   UpdateStatementMappingHandler,
 } from "./types";
 
@@ -57,6 +61,8 @@ type AppDependencies = {
   postAccountingEvent: PostAccountingEventHandler;
   listTenants: ListTenantsHandler;
   listEntities: ListEntitiesHandler;
+  createEntity: CreateEntityHandler;
+  updateEntity: UpdateEntityHandler;
   listAccounts: ListAccountsHandler;
   listStatementMappings: ListStatementMappingsHandler;
   createStatementMapping: CreateStatementMappingHandler;
@@ -122,6 +128,73 @@ export const buildApp = (deps: AppDependencies): FastifyInstance => {
     async () => ({
       status: "ok",
     }),
+  );
+
+  app.post(
+    "/entities",
+    {
+      schema: {
+        tags: ["reference"],
+        summary: "Create entity",
+      },
+    },
+    async (request, reply) => {
+      const input = parseCreateEntityInput(request.body);
+      if (!input) {
+        return reply.code(400).send({
+          error: "invalid_request",
+          message: "Request body does not match CreateEntityInput",
+        });
+      }
+
+      const entity = await deps.createEntity(input);
+      return reply.code(201).send(entity);
+    },
+  );
+
+  app.patch(
+    "/entities/:id",
+    {
+      schema: {
+        tags: ["reference"],
+        summary: "Update entity",
+      },
+    },
+    async (request, reply) => {
+      const tenantId = (request.query as { tenantId?: string }).tenantId;
+      if (!tenantId) {
+        return reply.code(400).send({
+          error: "invalid_request",
+          message: "tenantId query parameter is required",
+        });
+      }
+
+      const entityId = (request.params as { id?: string }).id;
+      if (!entityId) {
+        return reply.code(400).send({
+          error: "invalid_request",
+          message: "id path parameter is required",
+        });
+      }
+
+      const input = parseUpdateEntityInput(request.body);
+      if (!input) {
+        return reply.code(400).send({
+          error: "invalid_request",
+          message: "Request body does not match UpdateEntityInput",
+        });
+      }
+
+      const updated = await deps.updateEntity(tenantId, entityId, input);
+      if (!updated) {
+        return reply.code(404).send({
+          error: "not_found",
+          message: "Entity not found",
+        });
+      }
+
+      return reply.send(updated);
+    },
   );
 
   app.post(

@@ -1,5 +1,5 @@
+import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
 import { NativeSelect } from "@/components/ui/native-select";
 import { PageHeader } from "@/components/page-header";
 import { EntitiesTable } from "@/features/reference/entities-table";
@@ -31,15 +31,21 @@ export default async function EntitiesPage({
           <CardDescription>{pick(locale, { en: "Select a company to view accounting units.", ko: "회계 단위를 보려면 회사를 선택하세요." })}</CardDescription>
         </CardHeader>
         <CardContent>
-          <form className="grid gap-4 md:grid-cols-[minmax(220px,320px)_auto]">
-            <NativeSelect name="tenantId" defaultValue={tenantId}>
-              {tenants.items.map((tenant) => (
-                <option key={tenant.id} value={tenant.id}>
-                  {tenant.code} · {tenant.name}
-                </option>
-              ))}
-            </NativeSelect>
-            <Input type="submit" value={pick(locale, { en: "Load", ko: "조회" })} readOnly className="cursor-pointer font-medium" />
+          <form className="space-y-4">
+            <div className="max-w-sm">
+              <NativeSelect name="tenantId" defaultValue={tenantId}>
+                {tenants.items.map((tenant) => (
+                  <option key={tenant.id} value={tenant.id}>
+                    {tenant.code} · {tenant.name}
+                  </option>
+                ))}
+              </NativeSelect>
+            </div>
+            <div className="flex justify-end">
+              <Button type="submit">
+                {pick(locale, { en: "Search", ko: "조회" })}
+              </Button>
+            </div>
           </form>
         </CardContent>
       </Card>
@@ -49,11 +55,11 @@ export default async function EntitiesPage({
           <CardDescription>{tenantId ? pick(locale, { en: `${data.count} units`, ko: `${data.count}개의 회계 단위` }) : pick(locale, { en: "No company selected.", ko: "선택된 회사가 없습니다." })}</CardDescription>
         </CardHeader>
         <CardContent>
-          {tenantId && data.items.length > 0 ? (
-            <EntitiesTable items={data.items} locale={locale} />
+          {tenantId ? (
+            <EntitiesTable items={data.items} locale={locale} tenantId={tenantId} />
           ) : (
             <div className="rounded-xl border border-dashed border-border/80 bg-muted/40 p-5 text-sm leading-6 text-muted-foreground">
-              {pick(locale, { en: "No accounting units were found for the selected company.", ko: "선택한 회사에 회계 단위 정보가 없습니다." })}
+              {pick(locale, { en: "Select a company first.", ko: "회사를 먼저 선택하세요." })}
             </div>
           )}
         </CardContent>

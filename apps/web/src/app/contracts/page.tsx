@@ -1,5 +1,5 @@
+import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
 import { NativeSelect } from "@/components/ui/native-select";
 import { PageHeader } from "@/components/page-header";
 import { ContractsTable } from "@/features/reference/contracts-table";
@@ -31,15 +31,21 @@ export default async function ContractsPage({
           <CardDescription>{pick(locale, { en: "Select a company to view contracts.", ko: "계약을 보려면 회사를 선택하세요." })}</CardDescription>
         </CardHeader>
         <CardContent>
-          <form className="grid gap-4 md:grid-cols-[minmax(220px,320px)_auto]">
-            <NativeSelect name="tenantId" defaultValue={tenantId}>
-              {tenants.items.map((tenant) => (
-                <option key={tenant.id} value={tenant.id}>
-                  {tenant.code} · {tenant.name}
-                </option>
-              ))}
-            </NativeSelect>
-            <Input type="submit" value={pick(locale, { en: "Load", ko: "조회" })} readOnly className="cursor-pointer font-medium" />
+          <form className="space-y-4">
+            <div className="max-w-sm">
+              <NativeSelect name="tenantId" defaultValue={tenantId}>
+                {tenants.items.map((tenant) => (
+                  <option key={tenant.id} value={tenant.id}>
+                    {tenant.code} · {tenant.name}
+                  </option>
+                ))}
+              </NativeSelect>
+            </div>
+            <div className="flex justify-end">
+              <Button type="submit">
+                {pick(locale, { en: "Search", ko: "조회" })}
+              </Button>
+            </div>
           </form>
         </CardContent>
       </Card>

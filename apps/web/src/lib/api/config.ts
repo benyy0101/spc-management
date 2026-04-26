@@ -1,4 +1,4 @@
-const DEVELOPMENT_API_BASE_URL = "http://localhost:3000";
+const DEVELOPMENT_API_BASE_URL = "http://localhost:4000";
 const PRODUCTION_API_BASE_URL = "https://spcapi-production.up.railway.app";
 
 export const getApiBaseUrl = () => {

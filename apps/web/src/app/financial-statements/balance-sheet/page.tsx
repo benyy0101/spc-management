@@ -1,10 +1,10 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { NativeSelect } from "@/components/ui/native-select";
 import { PageHeader } from "@/components/page-header";
-import { buttonVariants } from "@/components/ui/button";
 import { FinancialStatementTable } from "@/features/financial-statements/financial-statement-table";
 import { getBalanceSheet } from "@/lib/api/financial-statements";
 import { listEntities, listTenants } from "@/lib/api/reference";
@@ -60,23 +60,28 @@ export default async function BalanceSheetPage({
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <form className="grid gap-4 md:grid-cols-3">
-            <NativeSelect name="tenantId" defaultValue={tenantId}>
-              {tenants.items.map((tenant) => (
-                <option key={tenant.id} value={tenant.id}>
-                  {tenant.code} · {tenant.name}
-                </option>
-              ))}
-            </NativeSelect>
-            <NativeSelect name="entityId" defaultValue={entityId}>
-              <option value="">{pick(locale, { en: "All entities", ko: "전체 회계주체" })}</option>
-              {entities.items.map((entity) => (
-                <option key={entity.id} value={entity.id}>
-                  {entity.code} · {entity.name}
-                </option>
-              ))}
-            </NativeSelect>
-            <Input name="asOf" type="date" defaultValue={asOf} />
+          <form className="space-y-4">
+            <div className="grid gap-4 md:grid-cols-3">
+              <NativeSelect name="tenantId" defaultValue={tenantId}>
+                {tenants.items.map((tenant) => (
+                  <option key={tenant.id} value={tenant.id}>
+                    {tenant.code} · {tenant.name}
+                  </option>
+                ))}
+              </NativeSelect>
+              <NativeSelect name="entityId" defaultValue={entityId}>
+                <option value="">{pick(locale, { en: "All entities", ko: "전체 회계주체" })}</option>
+                {entities.items.map((entity) => (
+                  <option key={entity.id} value={entity.id}>
+                    {entity.code} · {entity.name}
+                  </option>
+                ))}
+              </NativeSelect>
+              <Input name="asOf" type="date" defaultValue={asOf} maxLength={10} />
+            </div>
+            <div className="flex justify-end">
+              <Button type="submit">{pick(locale, { en: "Search", ko: "조회" })}</Button>
+            </div>
           </form>
         </CardContent>
       </Card>

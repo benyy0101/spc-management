@@ -25,6 +25,7 @@ import type {
   ClosePeriodReadModel,
   ContractReadModel,
   CreateClosePeriodInput,
+  CreateEntityInput,
   CreateStatementMappingInput,
   EntityReadModel,
   EventListFilters,
@@ -44,6 +45,7 @@ import type {
   TrialBalanceFilters,
   TrialBalanceReadModel,
   UpdateClosePeriodStatusInput,
+  UpdateEntityInput,
   UpdateStatementMappingInput,
 } from "../read-models";
 import { InvalidClosePeriodTransitionError } from "../errors";
@@ -289,6 +291,100 @@ export const createDrizzleAccountingReadRepository = (db: DbClient) => ({
       functionalCurrency: row.functionalCurrency,
       status: row.status,
     }));
+  },
+
+  async createEntity(input: CreateEntityInput): Promise<EntityReadModel> {
+    const rows = await db
+      .insert(entities)
+      .values({
+        tenantId: input.tenantId,
+        code: input.code,
+        name: input.name,
+        entityType: input.entityType,
+        functionalCurrency: input.functionalCurrency,
+        status: input.status ?? "active",
+      })
+      .returning();
+
+    await db.insert(auditLogs).values({
+      tenantId: input.tenantId,
+      actionType: "create_entity",
+      resourceType: "entity",
+      resourceId: rows[0].id,
+      afterPayloadJson: {
+        code: rows[0].code,
+        name: rows[0].name,
+        entityType: rows[0].entityType,
+        functionalCurrency: rows[0].functionalCurrency,
+        status: rows[0].status,
+      },
+    });
+
+    return {
+      id: rows[0].id,
+      tenantId: rows[0].tenantId,
+      code: rows[0].code,
+      name: rows[0].name,
+      entityType: rows[0].entityType,
+      functionalCurrency: rows[0].functionalCurrency,
+      status: rows[0].status,
+    };
+  },
+
+  async updateEntity(tenantId: string, entityId: string, input: UpdateEntityInput): Promise<EntityReadModel | null> {
+    const current = await db
+      .select()
+      .from(entities)
+      .where(and(eq(entities.tenantId, tenantId), eq(entities.id, entityId)))
+      .limit(1);
+
+    if (!current[0]) {
+      return null;
+    }
+
+    const rows = await db
+      .update(entities)
+      .set({
+        code: input.code ?? current[0].code,
+        name: input.name ?? current[0].name,
+        entityType: input.entityType ?? current[0].entityType,
+        functionalCurrency: input.functionalCurrency ?? current[0].functionalCurrency,
+        status: input.status ?? current[0].status,
+        updatedAt: new Date(),
+      })
+      .where(and(eq(entities.tenantId, tenantId), eq(entities.id, entityId)))
+      .returning();
+
+    await db.insert(auditLogs).values({
+      tenantId,
+      actionType: "update_entity",
+      resourceType: "entity",
+      resourceId: entityId,
+      beforePayloadJson: {
+        code: current[0].code,
+        name: current[0].name,
+        entityType: current[0].entityType,
+        functionalCurrency: current[0].functionalCurrency,
+        status: current[0].status,
+      },
+      afterPayloadJson: {
+        code: rows[0].code,
+        name: rows[0].name,
+        entityType: rows[0].entityType,
+        functionalCurrency: rows[0].functionalCurrency,
+        status: rows[0].status,
+      },
+    });
+
+    return {
+      id: rows[0].id,
+      tenantId: rows[0].tenantId,
+      code: rows[0].code,
+      name: rows[0].name,
+      entityType: rows[0].entityType,
+      functionalCurrency: rows[0].functionalCurrency,
+      status: rows[0].status,
+    };
   },
 
   async listAccounts(tenantId: string): Promise<AccountReadModel[]> {

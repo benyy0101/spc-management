@@ -2,6 +2,7 @@ import type { PostAccountingEventCommand } from "@spc/application";
 import type {
   ApproveJournalInput,
   CreateManualJournalInput,
+  CreateEntityInput,
   ManualJournalLineInput,
   RunAllocationInput,
   CreateClosePeriodInput,
@@ -9,6 +10,7 @@ import type {
   ReprocessEventInput,
   ReverseJournalInput,
   UpdateClosePeriodStatusInput,
+  UpdateEntityInput,
   UpdateStatementMappingInput,
 } from "./read-models";
 
@@ -93,6 +95,85 @@ export const parseCreateStatementMappingInput = (payload: unknown): CreateStatem
     lineName,
     displayOrder,
   };
+};
+
+export const parseCreateEntityInput = (payload: unknown): CreateEntityInput | null => {
+  if (!isRecord(payload)) {
+    return null;
+  }
+
+  const { tenantId, code, name, entityType, functionalCurrency, status } = payload;
+  if (
+    !isString(tenantId) ||
+    !isString(code) ||
+    !isString(name) ||
+    !isString(entityType) ||
+    !isString(functionalCurrency)
+  ) {
+    return null;
+  }
+
+  if (!["asset_manager", "fund", "spc", "corporate", "other"].includes(entityType)) {
+    return null;
+  }
+
+  if (status !== undefined && (!isString(status) || !["active", "inactive"].includes(status))) {
+    return null;
+  }
+
+  return {
+    tenantId,
+    code,
+    name,
+    entityType: entityType as CreateEntityInput["entityType"],
+    functionalCurrency,
+    status: status as CreateEntityInput["status"] | undefined,
+  };
+};
+
+export const parseUpdateEntityInput = (payload: unknown): UpdateEntityInput | null => {
+  if (!isRecord(payload)) {
+    return null;
+  }
+
+  const result: UpdateEntityInput = {};
+
+  if ("code" in payload) {
+    if (!isString(payload.code)) {
+      return null;
+    }
+    result.code = payload.code;
+  }
+
+  if ("name" in payload) {
+    if (!isString(payload.name)) {
+      return null;
+    }
+    result.name = payload.name;
+  }
+
+  if ("entityType" in payload) {
+    if (!isString(payload.entityType) || !["asset_manager", "fund", "spc", "corporate", "other"].includes(payload.entityType)) {
+      return null;
+    }
+    result.entityType = payload.entityType as UpdateEntityInput["entityType"];
+  }
+
+  if ("functionalCurrency" in payload) {
+    if (!isString(payload.functionalCurrency)) {
+      return null;
+    }
+    result.functionalCurrency = payload.functionalCurrency;
+  }
+
+  if ("status" in payload) {
+    if (!isString(payload.status) || !["active", "inactive"].includes(payload.status)) {
+      return null;
+    }
+    result.status = payload.status as UpdateEntityInput["status"];
+  }
+
+  return result;
 };
 
 export const parseUpdateStatementMappingInput = (payload: unknown): UpdateStatementMappingInput | null => {

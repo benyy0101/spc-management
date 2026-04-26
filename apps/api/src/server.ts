@@ -23,6 +23,8 @@ const main = async () => {
       ),
     listTenants: () => accountingReadRepository.listTenants(),
     listEntities: (tenantId) => accountingReadRepository.listEntities(tenantId),
+    createEntity: (input) => accountingReadRepository.createEntity(input),
+    updateEntity: (tenantId, entityId, input) => accountingReadRepository.updateEntity(tenantId, entityId, input),
     listAccounts: (tenantId) => accountingReadRepository.listAccounts(tenantId),
     listStatementMappings: (tenantId) => accountingReadRepository.listStatementMappings(tenantId),
     createStatementMapping: (input) => accountingReadRepository.createStatementMapping(input),
