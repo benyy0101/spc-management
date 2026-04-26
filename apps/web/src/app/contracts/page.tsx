@@ -23,12 +23,12 @@ export default async function ContractsPage({
       <PageHeader
         eyebrow={pick(locale, { en: "Reference", ko: "기준정보" })}
         title={pick(locale, { en: "Contracts", ko: "계약" })}
-        description={pick(locale, { en: "Review contract masters that link products to accounting events.", ko: "상품과 회계 이벤트를 연결하는 계약 마스터를 검토합니다." })}
+        description={pick(locale, { en: "Review contracts linked to products and transactions.", ko: "상품과 거래에 연결되는 계약 내용을 확인합니다." })}
       />
       <Card className="border-border/70 shadow-sm">
         <CardHeader>
           <CardTitle>{pick(locale, { en: "Filters", ko: "필터" })}</CardTitle>
-          <CardDescription>{pick(locale, { en: "Select a tenant to load contracts.", ko: "계약을 불러오려면 tenant를 선택하세요." })}</CardDescription>
+          <CardDescription>{pick(locale, { en: "Select a company to view contracts.", ko: "계약을 보려면 회사를 선택하세요." })}</CardDescription>
         </CardHeader>
         <CardContent>
           <form className="grid gap-4 md:grid-cols-[minmax(220px,320px)_auto]">
@@ -46,14 +46,14 @@ export default async function ContractsPage({
       <Card className="border-border/70 shadow-sm">
         <CardHeader>
           <CardTitle>{pick(locale, { en: "Contracts", ko: "계약" })}</CardTitle>
-          <CardDescription>{tenantId ? pick(locale, { en: `${data.count} contract row(s)`, ko: `${data.count}개의 계약 행` }) : pick(locale, { en: "No tenant selected.", ko: "선택된 tenant가 없습니다." })}</CardDescription>
+          <CardDescription>{tenantId ? pick(locale, { en: `${data.count} contracts`, ko: `${data.count}개의 계약` }) : pick(locale, { en: "No company selected.", ko: "선택된 회사가 없습니다." })}</CardDescription>
         </CardHeader>
         <CardContent>
           {tenantId && data.items.length > 0 ? (
             <ContractsTable items={data.items} locale={locale} />
           ) : (
             <div className="rounded-xl border border-dashed border-border/80 bg-muted/40 p-5 text-sm leading-6 text-muted-foreground">
-              {pick(locale, { en: "No contract rows were returned for the selected tenant.", ko: "선택한 tenant에 대해 계약 데이터가 없습니다." })}
+              {pick(locale, { en: "No contracts were found for the selected company.", ko: "선택한 회사에 계약 정보가 없습니다." })}
             </div>
           )}
         </CardContent>

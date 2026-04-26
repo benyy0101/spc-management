@@ -11,14 +11,14 @@ export default async function AuditLogsPage() {
       eyebrow={pick(locale, { en: "Operations", ko: "운영" })}
       title={pick(locale, { en: "Audit Logs", ko: "감사 로그" })}
       description={pick(locale, {
-        en: "This page will expose operational history for posting, manual journals, approvals, reversals, and reprocess actions.",
-        ko: "이 페이지는 posting, 수기전표, 승인, 역분개, 재처리 같은 운영 이력을 보여줍니다.",
+        en: "This page will show work history such as journal entry, approval, cancellation, and correction.",
+        ko: "이 화면에서는 전표 입력, 승인, 취소, 정정 같은 업무 이력을 확인합니다.",
       })}
-      apiItems={["GET /audit-logs"]}
+      apiItems={[pick(locale, { en: "View work history", ko: "업무 이력 보기" })]}
       nextItems={[
-        pick(locale, { en: "Add filters for action type, resource type, and resource id.", ko: "action type, resource type, resource id 필터 추가" }),
-        pick(locale, { en: "Render logs in reverse chronological order.", ko: "최신순 감사 로그 렌더링" }),
-        pick(locale, { en: "Expose payload detail in a dialog.", ko: "payload 상세를 dialog로 노출" }),
+        pick(locale, { en: "Add filters by work type and target.", ko: "업무 유형과 대상별 필터 추가" }),
+        pick(locale, { en: "Show the latest history first.", ko: "최신 이력부터 표시" }),
+        pick(locale, { en: "Open detailed information in a popup.", ko: "상세 내용을 팝업으로 표시" }),
       ]}
     />
   );

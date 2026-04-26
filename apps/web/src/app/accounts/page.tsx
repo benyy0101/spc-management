@@ -23,12 +23,12 @@ export default async function AccountsPage({
       <PageHeader
         eyebrow={pick(locale, { en: "Reference", ko: "기준정보" })}
         title={pick(locale, { en: "Accounts", ko: "계정과목" })}
-        description={pick(locale, { en: "Review the chart of accounts used by journal lines and trial balance projections.", ko: "전표 라인과 시산표 집계에 사용되는 계정과목 체계를 검토합니다." })}
+        description={pick(locale, { en: "Review the account list used in journals and reports.", ko: "전표와 보고서에 쓰이는 계정과목 목록을 확인합니다." })}
       />
       <Card className="border-border/70 shadow-sm">
         <CardHeader>
           <CardTitle>{pick(locale, { en: "Filters", ko: "필터" })}</CardTitle>
-          <CardDescription>{pick(locale, { en: "Select a tenant to load COA rows.", ko: "COA를 불러오려면 tenant를 선택하세요." })}</CardDescription>
+          <CardDescription>{pick(locale, { en: "Select a company to view the account list.", ko: "계정과목 목록을 보려면 회사를 선택하세요." })}</CardDescription>
         </CardHeader>
         <CardContent>
           <form className="grid gap-4 md:grid-cols-[minmax(220px,320px)_auto]">
@@ -46,14 +46,14 @@ export default async function AccountsPage({
       <Card className="border-border/70 shadow-sm">
         <CardHeader>
           <CardTitle>{pick(locale, { en: "Chart of Accounts", ko: "계정과목 체계" })}</CardTitle>
-          <CardDescription>{tenantId ? pick(locale, { en: `${data.count} account row(s)`, ko: `${data.count}개의 계정 행` }) : pick(locale, { en: "No tenant selected.", ko: "선택된 tenant가 없습니다." })}</CardDescription>
+          <CardDescription>{tenantId ? pick(locale, { en: `${data.count} accounts`, ko: `${data.count}개의 계정과목` }) : pick(locale, { en: "No company selected.", ko: "선택된 회사가 없습니다." })}</CardDescription>
         </CardHeader>
         <CardContent>
           {tenantId && data.items.length > 0 ? (
             <AccountsTable items={data.items} locale={locale} />
           ) : (
             <div className="rounded-xl border border-dashed border-border/80 bg-muted/40 p-5 text-sm leading-6 text-muted-foreground">
-              {pick(locale, { en: "No account rows were returned for the selected tenant.", ko: "선택한 tenant에 대해 계정과목 데이터가 없습니다." })}
+              {pick(locale, { en: "No accounts were found for the selected company.", ko: "선택한 회사에 계정과목 정보가 없습니다." })}
             </div>
           )}
         </CardContent>

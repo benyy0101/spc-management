@@ -11,14 +11,18 @@ export default async function ClosePeriodsPage() {
       eyebrow={pick(locale, { en: "Operations", ko: "운영" })}
       title={pick(locale, { en: "Close Periods", ko: "마감 관리" })}
       description={pick(locale, {
-        en: "This page will let operators create close periods and move them through open, closing, closed, and reopened states.",
-        ko: "이 페이지는 운영자가 마감 기간을 생성하고 open, closing, closed, reopened 상태로 전이시키는 화면입니다.",
+        en: "This page will manage accounting periods from open to closed and reopened.",
+        ko: "이 화면에서는 회계 기간을 시작, 마감, 재개 상태로 관리합니다.",
       })}
-      apiItems={["GET /close-periods", "POST /close-periods", "PATCH /close-periods/:id/status"]}
+      apiItems={[
+        pick(locale, { en: "View closing schedule", ko: "마감 일정 보기" }),
+        pick(locale, { en: "Register a closing period", ko: "마감 기간 등록" }),
+        pick(locale, { en: "Change closing status", ko: "마감 상태 변경" }),
+      ]}
       nextItems={[
-        pick(locale, { en: "List close periods by tenant, entity, and book.", ko: "tenant, entity, book 기준 마감 목록 표시" }),
-        pick(locale, { en: "Add create form and state transition actions.", ko: "생성 폼과 상태 전이 액션 추가" }),
-        pick(locale, { en: "Expose posting-block context in the UI.", ko: "posting 차단 컨텍스트를 화면에 노출" }),
+        pick(locale, { en: "Show the closing list by company, accounting unit, and ledger.", ko: "회사, 회계 단위, 장부별 마감 목록 표시" }),
+        pick(locale, { en: "Add a registration form and status change actions.", ko: "등록창과 상태 변경 기능 추가" }),
+        pick(locale, { en: "Show when additional journal posting is blocked.", ko: "추가 전표 입력 제한 여부 표시" }),
       ]}
     />
   );

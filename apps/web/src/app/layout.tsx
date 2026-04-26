@@ -5,7 +5,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "SPC Accounting Web",
-  description: "Operations console for SPC accounting workflows",
+  description: "Work screens for SPC accounting review and entry",
 };
 
 export default async function RootLayout({

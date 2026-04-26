@@ -129,15 +129,15 @@ export function StatementMappingsTable({
       <div className="flex items-center justify-end">
         <Dialog open={createOpen} onOpenChange={setCreateOpen}>
           <DialogTrigger render={<Button />}>
-            {pick(locale, { en: "Add Mapping", ko: "매핑 추가" })}
+            {pick(locale, { en: "Add Setting", ko: "표시 기준 추가" })}
           </DialogTrigger>
           <DialogContent>
             <DialogHeader>
-              <DialogTitle>{pick(locale, { en: "Create Statement Mapping", ko: "재무제표 매핑 생성" })}</DialogTitle>
+              <DialogTitle>{pick(locale, { en: "Add Statement Setting", ko: "재무제표 표시 기준 추가" })}</DialogTitle>
               <DialogDescription>
                 {pick(locale, {
-                  en: "Create a new account-to-statement line mapping for the selected tenant.",
-                  ko: "선택한 tenant에 대해 계정과목과 재무제표 라인을 새로 매핑합니다.",
+                  en: "Choose how the selected account should appear on the statement.",
+                  ko: "선택한 계정과목을 재무제표 어디에 표시할지 정합니다.",
                 })}
               </DialogDescription>
             </DialogHeader>
@@ -192,7 +192,7 @@ export function StatementMappingsTable({
               <Button type="submit" form="create-statement-mapping-form" disabled={pending || accounts.length === 0}>
                 {pending
                   ? pick(locale, { en: "Saving...", ko: "저장 중..." })
-                  : pick(locale, { en: "Create", ko: "생성" })}
+                  : pick(locale, { en: "Save", ko: "저장" })}
               </Button>
             </DialogFooter>
           </DialogContent>
@@ -208,7 +208,7 @@ export function StatementMappingsTable({
             <TableHead>{pick(locale, { en: "Line Code", ko: "라인 코드" })}</TableHead>
             <TableHead>{pick(locale, { en: "Line Name", ko: "라인명" })}</TableHead>
             <TableHead className="text-right">{pick(locale, { en: "Order", ko: "순서" })}</TableHead>
-            <TableHead className="text-right">{pick(locale, { en: "Actions", ko: "액션" })}</TableHead>
+            <TableHead className="text-right">{pick(locale, { en: "Manage", ko: "관리" })}</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -240,11 +240,11 @@ export function StatementMappingsTable({
       }}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>{pick(locale, { en: "Edit Statement Mapping", ko: "재무제표 매핑 수정" })}</DialogTitle>
+            <DialogTitle>{pick(locale, { en: "Edit Statement Setting", ko: "재무제표 표시 기준 수정" })}</DialogTitle>
             <DialogDescription>
               {pick(locale, {
-                en: "Update the selected mapping line code, line name, and display order.",
-                ko: "선택한 매핑의 라인 코드, 라인명, 표시 순서를 수정합니다.",
+                en: "Update the name and display order for the selected statement item.",
+                ko: "선택한 재무제표 항목의 이름과 표시 순서를 수정합니다.",
               })}
             </DialogDescription>
           </DialogHeader>

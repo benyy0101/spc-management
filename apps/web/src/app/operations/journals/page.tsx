@@ -11,19 +11,19 @@ export default async function JournalOperationsPage() {
       eyebrow={pick(locale, { en: "Operations", ko: "운영" })}
       title={pick(locale, { en: "Journal Actions", ko: "전표 운영" })}
       description={pick(locale, {
-        en: "This page will group manual journal creation, approval, reversal, and source-event reprocess actions into one operational surface.",
-        ko: "이 페이지는 수기전표 생성, 승인, 역분개, 원천 이벤트 재처리 액션을 하나의 운영 화면으로 묶습니다.",
+        en: "This page will bring journal entry, approval, cancellation, and correction work into one place.",
+        ko: "이 화면에서는 수기 입력, 승인, 취소, 정정 같은 전표 업무를 한곳에서 처리합니다.",
       })}
       apiItems={[
-        "POST /journals/manual",
-        "POST /journals/:id/approve",
-        "POST /journals/:id/reverse",
-        "POST /events/:id/reprocess",
+        pick(locale, { en: "Enter a manual journal", ko: "수기 전표 입력" }),
+        pick(locale, { en: "Approve a prepared journal", ko: "작성된 전표 승인" }),
+        pick(locale, { en: "Cancel a journal entry", ko: "전표 취소 처리" }),
+        pick(locale, { en: "Correct a source transaction and process again", ko: "원거래 정정 후 다시 처리" }),
       ]}
       nextItems={[
-        pick(locale, { en: "Add manual journal form.", ko: "수기전표 입력 폼 추가" }),
-        pick(locale, { en: "Expose approve and reverse actions from journal lists.", ko: "전표 목록에서 승인·역분개 액션 노출" }),
-        pick(locale, { en: "Add event reprocess controls for source events.", ko: "원천 이벤트 재처리 컨트롤 추가" }),
+        pick(locale, { en: "Add a manual journal entry form.", ko: "수기 전표 입력창 추가" }),
+        pick(locale, { en: "Add approval and cancellation buttons to the journal list.", ko: "전표 목록에 승인과 취소 버튼 추가" }),
+        pick(locale, { en: "Add controls to correct and rerun source transactions.", ko: "원거래 정정 및 재처리 기능 추가" }),
       ]}
     />
   );

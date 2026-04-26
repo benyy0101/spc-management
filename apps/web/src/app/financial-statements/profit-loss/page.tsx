@@ -40,8 +40,8 @@ export default async function ProfitLossPage({
         eyebrow={pick(locale, { en: "Financial", ko: "재무보고" })}
         title={pick(locale, { en: "Profit & Loss", ko: "손익계산서" })}
         description={pick(locale, {
-          en: "Inspect revenue and expense lines for a reporting period using the live P&L endpoint.",
-          ko: "실제 손익계산서 API를 기준으로 보고 기간의 수익·비용 라인을 검토합니다.",
+          en: "Review revenue and expense details for the selected period.",
+          ko: "선택한 기간의 수익과 비용 내역을 확인합니다.",
         })}
         action={
           <Link href="/statement-mappings" className={cn(buttonVariants({ variant: "outline" }))}>
@@ -56,8 +56,8 @@ export default async function ProfitLossPage({
           <CardTitle>{pick(locale, { en: "Filters", ko: "필터" })}</CardTitle>
           <CardDescription>
             {pick(locale, {
-              en: "The profit and loss API requires tenantId, from, and to. Entity remains optional.",
-              ko: "손익계산서 API는 tenantId, from, to가 필요하며 entity는 선택 사항입니다.",
+              en: "Select a company and period. The accounting unit is optional.",
+              ko: "회사와 기간을 선택하세요. 회계 단위는 선택 사항입니다.",
             })}
           </CardDescription>
         </CardHeader>
@@ -90,7 +90,7 @@ export default async function ProfitLossPage({
           <CardDescription>
             {tenantId
               ? pick(locale, { en: `${from} to ${to}`, ko: `${from} ~ ${to}` })
-              : pick(locale, { en: "Select tenant and period to load statement lines.", ko: "재무제표 라인을 조회하려면 tenant와 기간을 선택하세요." })}
+              : pick(locale, { en: "Select a company and period to view the statement.", ko: "손익계산서를 보려면 회사와 기간을 선택하세요." })}
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -99,8 +99,8 @@ export default async function ProfitLossPage({
           ) : (
             <div className="rounded-xl border border-dashed border-border/80 bg-muted/40 p-5 text-sm leading-6 text-muted-foreground">
               {tenantId
-                ? pick(locale, { en: "The API request failed or returned no statement rows. Check the API server, statement mappings, and selected period.", ko: "API 요청이 실패했거나 재무제표 라인이 없습니다. 서버 상태, 매핑, 선택한 기간을 확인하세요." })
-                : pick(locale, { en: "No request has been sent yet. Select tenant and period to load the profit and loss statement.", ko: "아직 요청이 전송되지 않았습니다. tenant와 기간을 선택해 손익계산서를 조회하세요." })}
+                ? pick(locale, { en: "No statement data was found. Check the selected conditions.", ko: "표시할 손익 자료가 없습니다. 선택한 조건을 확인하세요." })
+                : pick(locale, { en: "Select a company and period first.", ko: "회사와 기간을 먼저 선택하세요." })}
             </div>
           )}
         </CardContent>

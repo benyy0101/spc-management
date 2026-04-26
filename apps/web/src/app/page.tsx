@@ -12,21 +12,21 @@ export default async function Home() {
   const locale = await getServerLocale();
   const statCards = [
     {
-      label: pick(locale, { en: "Enabled Event Types", ko: "지원 이벤트 유형" }),
+      label: pick(locale, { en: "Supported Transaction Types", ko: "지원 거래 유형" }),
       value: "3",
       description: pick(locale, { en: "Loan origination, interest accrual, principal repayment", ko: "대출 실행, 이자 발생, 원금 상환" }),
       icon: Zap,
     },
     {
-      label: pick(locale, { en: "Primary Review Surface", ko: "주요 검토 화면" }),
+      label: pick(locale, { en: "Main Review Screen", ko: "주요 검토 화면" }),
       value: pick(locale, { en: "Journals", ko: "전표" }),
-      description: pick(locale, { en: "Generated postings remain the first audit checkpoint", ko: "생성된 분개 전표가 첫 번째 감사 검토 지점입니다." }),
+      description: pick(locale, { en: "Created journal entries are checked here first", ko: "생성된 전표를 가장 먼저 확인하는 화면입니다." }),
       icon: ReceiptText,
     },
     {
-      label: pick(locale, { en: "Validation Output", ko: "검증 결과물" }),
+      label: pick(locale, { en: "Balance Check Screen", ko: "잔액 확인 화면" }),
       value: pick(locale, { en: "Trial Balance", ko: "시산표" }),
-      description: pick(locale, { en: "The first aggregate view that closes the accounting loop", ko: "회계 흐름을 닫는 첫 집계 화면입니다." }),
+      description: pick(locale, { en: "Use it to confirm balances by account", ko: "계정별 잔액을 확인할 때 사용하는 화면입니다." }),
       icon: Scale,
     },
   ];
@@ -34,15 +34,15 @@ export default async function Home() {
   return (
     <div className="space-y-8">
       <PageHeader
-        eyebrow={pick(locale, { en: "Dashboard", ko: "대시보드" })}
-        title={pick(locale, { en: "Accounting Flow Overview", ko: "회계 흐름 개요" })}
+        eyebrow={pick(locale, { en: "Overview", ko: "전체 현황" })}
+        title={pick(locale, { en: "Accounting Work Overview", ko: "회계 업무 개요" })}
         description={pick(locale, {
-          en: "Use the console to post supported accounting events, inspect the generated journals, and confirm the resulting balances in the trial balance.",
-          ko: "이 콘솔에서 지원되는 회계 이벤트를 입력하고, 생성된 전표를 검토한 뒤, 시산표에서 결과 잔액을 확인할 수 있습니다.",
+          en: "Enter transactions, review created journals, and check the final balances from one place.",
+          ko: "거래 입력, 전표 검토, 최종 잔액 확인을 한곳에서 진행할 수 있습니다.",
         })}
         action={
           <Link href="/events/new" className={cn(buttonVariants())}>
-            {pick(locale, { en: "New Event", ko: "이벤트 입력" })}
+            {pick(locale, { en: "New Transaction", ko: "거래 입력" })}
             <ArrowRight className="size-4" />
           </Link>
         }
@@ -76,22 +76,22 @@ export default async function Home() {
       <section className="grid gap-4 xl:grid-cols-[1.3fr_1fr]">
         <Card className="border-border/70 shadow-sm">
           <CardHeader>
-            <CardDescription>{pick(locale, { en: "Execution Path", ko: "실행 경로" })}</CardDescription>
-            <CardTitle className="mt-2">{pick(locale, { en: "Core Workflow", ko: "핵심 워크플로" })}</CardTitle>
+            <CardDescription>{pick(locale, { en: "Work Order", ko: "업무 순서" })}</CardDescription>
+            <CardTitle className="mt-2">{pick(locale, { en: "Main Steps", ko: "주요 단계" })}</CardTitle>
           </CardHeader>
           <CardContent className="grid gap-3 sm:grid-cols-3">
             {[
               [
-                pick(locale, { en: "1. Post Event", ko: "1. 이벤트 입력" }),
-                pick(locale, { en: "Capture one of the 3 supported event types from the operations team.", ko: "운영팀이 입력하는 3개 지원 이벤트 중 하나를 등록합니다." }),
+                pick(locale, { en: "1. Enter Transaction", ko: "1. 거래 입력" }),
+                pick(locale, { en: "Register one of the supported transactions.", ko: "지원되는 거래 유형 중 하나를 등록합니다." }),
               ],
               [
-                pick(locale, { en: "2. Inspect Journals", ko: "2. 전표 검토" }),
-                pick(locale, { en: "Confirm debit and credit lines, dimensions, and journal numbers.", ko: "차변/대변 라인, 차원, 전표번호를 확인합니다." }),
+                pick(locale, { en: "2. Review Journals", ko: "2. 전표 검토" }),
+                pick(locale, { en: "Check debit, credit, journal number, and description.", ko: "차변과 대변, 전표번호, 적요를 확인합니다." }),
               ],
               [
-                pick(locale, { en: "3. Validate Balances", ko: "3. 잔액 검증" }),
-                pick(locale, { en: "Check that the resulting balances roll into the trial balance as expected.", ko: "결과 잔액이 시산표에 기대한 대로 반영되는지 확인합니다." }),
+                pick(locale, { en: "3. Check Balances", ko: "3. 잔액 확인" }),
+                pick(locale, { en: "Confirm that the final balances are reflected as expected.", ko: "최종 잔액이 예상대로 반영되었는지 확인합니다." }),
               ],
             ].map(([title, description]) => (
               <div key={title} className="rounded-xl border border-border/70 bg-background p-4">
@@ -106,17 +106,17 @@ export default async function Home() {
           <CardHeader>
             <div className="flex items-center justify-between gap-4">
               <div>
-                <CardDescription>{pick(locale, { en: "Roadmap", ko: "로드맵" })}</CardDescription>
-                <CardTitle className="mt-2">{pick(locale, { en: "Extended Workspace", ko: "확장 작업 영역" })}</CardTitle>
+                <CardDescription>{pick(locale, { en: "Related Work", ko: "관련 업무" })}</CardDescription>
+                <CardTitle className="mt-2">{pick(locale, { en: "More Screens", ko: "추가 화면" })}</CardTitle>
               </div>
-              <Badge variant="outline">{pick(locale, { en: "Expandable", ko: "확장 가능" })}</Badge>
+              <Badge variant="outline">{pick(locale, { en: "More Coming", ko: "계속 추가" })}</Badge>
             </div>
           </CardHeader>
           <CardContent className="space-y-3">
             {[
-              pick(locale, { en: "Accounts and COA review", ko: "계정과목과 COA 검토" }),
-              pick(locale, { en: "Product master and contract lookup", ko: "상품 마스터와 계약 조회" }),
-              pick(locale, { en: "Entity and reporting-unit administration", ko: "회계주체와 보고 단위 관리" }),
+              pick(locale, { en: "Account list review", ko: "계정과목 확인" }),
+              pick(locale, { en: "Product and contract lookup", ko: "상품과 계약 조회" }),
+              pick(locale, { en: "Accounting unit management", ko: "회계 단위 관리" }),
             ].map((item) => (
               <div key={item} className="rounded-xl border border-dashed border-border/80 bg-muted/40 px-4 py-3 text-sm text-muted-foreground">
                 {item}

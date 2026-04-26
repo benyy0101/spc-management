@@ -23,15 +23,15 @@ export function SidebarNav({ locale }: { locale: Locale }) {
               {pick(locale, { en: "SPC Accounting", ko: "SPC 회계" })}
             </p>
             <h1 className="mt-2 font-heading text-xl font-semibold tracking-tight">
-              {pick(locale, { en: "Operations Console", ko: "운영 콘솔" })}
+              {pick(locale, { en: "Work Menu", ko: "업무 메뉴" })}
             </h1>
           </div>
-          <Badge variant="outline">{pick(locale, { en: "Live", ko: "운영" })}</Badge>
+          <Badge variant="outline">{pick(locale, { en: "In Use", ko: "사용 중" })}</Badge>
         </div>
         <p className="mt-3 text-sm leading-6 text-muted-foreground">
           {pick(locale, {
-            en: "Input events, inspect journals, and validate balances before the broader platform fills out.",
-            ko: "이벤트 입력, 전표 검토, 잔액 검증까지 먼저 닫고 이후 확장 기능을 채워 넣습니다.",
+            en: "Enter transactions, review journals, and check balances in one place.",
+            ko: "거래 입력부터 전표 검토, 잔액 확인까지 한 화면에서 진행합니다.",
           })}
         </p>
       </div>
@@ -78,12 +78,12 @@ export function SidebarNav({ locale }: { locale: Locale }) {
       <div className="border-t border-sidebar-border px-5 py-4">
         <div className="rounded-xl bg-muted/60 p-3">
           <p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">
-            {pick(locale, { en: "Context", ko: "문맥" })}
+            {pick(locale, { en: "Current Setting", ko: "현재 설정" })}
           </p>
           <div className="mt-3 space-y-2 text-sm">
             <div className="flex items-center justify-between gap-4">
-              <span className="text-muted-foreground">{pick(locale, { en: "Tenant", ko: "테넌트" })}</span>
-              <span className="font-medium">{pick(locale, { en: "Demo Tenant", ko: "데모 테넌트" })}</span>
+              <span className="text-muted-foreground">{pick(locale, { en: "Company", ko: "회사" })}</span>
+              <span className="font-medium">{pick(locale, { en: "Sample Company", ko: "예시 회사" })}</span>
             </div>
             <div className="flex items-center justify-between gap-4">
               <span className="text-muted-foreground">{pick(locale, { en: "Base Currency", ko: "기준 통화" })}</span>

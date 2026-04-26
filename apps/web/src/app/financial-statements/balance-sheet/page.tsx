@@ -38,8 +38,8 @@ export default async function BalanceSheetPage({
         eyebrow={pick(locale, { en: "Financial", ko: "재무보고" })}
         title={pick(locale, { en: "Balance Sheet", ko: "재무상태표" })}
         description={pick(locale, {
-          en: "Review balance sheet line items by tenant, entity, and reporting date using the live statement API.",
-          ko: "실제 재무제표 API를 기준으로 tenant, 회계주체, 기준일별 재무상태표 라인을 검토합니다.",
+          en: "Review the balance sheet by company, accounting unit, and date.",
+          ko: "회사, 회계 단위, 날짜 기준으로 재무상태표를 확인합니다.",
         })}
         action={
           <Link href="/statement-mappings" className={cn(buttonVariants({ variant: "outline" }))}>
@@ -54,8 +54,8 @@ export default async function BalanceSheetPage({
           <CardTitle>{pick(locale, { en: "Filters", ko: "필터" })}</CardTitle>
           <CardDescription>
             {pick(locale, {
-              en: "The balance sheet API requires tenantId and asOf. Entity remains optional.",
-              ko: "재무상태표 API는 tenantId와 asOf가 필요하며 entity는 선택 사항입니다.",
+              en: "Select a company and date. The accounting unit is optional.",
+              ko: "회사와 날짜를 선택하세요. 회계 단위는 선택 사항입니다.",
             })}
           </CardDescription>
         </CardHeader>
@@ -87,7 +87,7 @@ export default async function BalanceSheetPage({
           <CardDescription>
             {tenantId
               ? pick(locale, { en: `As of ${asOf}`, ko: `${asOf} 기준` })
-              : pick(locale, { en: "Select tenant and reporting date to load statement lines.", ko: "재무제표 라인을 조회하려면 tenant와 기준일을 선택하세요." })}
+              : pick(locale, { en: "Select a company and date to view the statement.", ko: "재무상태표를 보려면 회사와 날짜를 선택하세요." })}
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -96,8 +96,8 @@ export default async function BalanceSheetPage({
           ) : (
             <div className="rounded-xl border border-dashed border-border/80 bg-muted/40 p-5 text-sm leading-6 text-muted-foreground">
               {tenantId
-                ? pick(locale, { en: "The API request failed or returned no statement rows. Check the API server, statement mappings, and selected filters.", ko: "API 요청이 실패했거나 재무제표 라인이 없습니다. 서버 상태, 매핑, 선택한 필터를 확인하세요." })
-                : pick(locale, { en: "No request has been sent yet. Select tenant and reporting date to load the balance sheet.", ko: "아직 요청이 전송되지 않았습니다. tenant와 기준일을 선택해 재무상태표를 조회하세요." })}
+                ? pick(locale, { en: "No statement data was found. Check the selected conditions.", ko: "표시할 재무상태표 자료가 없습니다. 선택한 조건을 확인하세요." })
+                : pick(locale, { en: "Select a company and date first.", ko: "회사와 날짜를 먼저 선택하세요." })}
             </div>
           )}
         </CardContent>

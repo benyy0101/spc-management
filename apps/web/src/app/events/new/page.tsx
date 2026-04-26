@@ -9,11 +9,11 @@ export default async function NewEventPage() {
   return (
     <div className="space-y-8">
       <PageHeader
-        eyebrow={pick(locale, { en: "Events", ko: "이벤트" })}
-        title={pick(locale, { en: "Post New Accounting Event", ko: "새 회계 이벤트 입력" })}
+        eyebrow={pick(locale, { en: "Transactions", ko: "거래" })}
+        title={pick(locale, { en: "Enter New Transaction", ko: "새 거래 입력" })}
         description={pick(locale, {
-          en: "This form focuses on the supported event types needed to operate the core loan lifecycle.",
-          ko: "이 화면은 핵심 대출 라이프사이클 운영에 필요한 지원 이벤트 유형에 집중합니다.",
+          en: "Use this form to enter the main loan-related transactions used in daily work.",
+          ko: "이 화면에서는 대출 관련 주요 거래를 입력할 수 있습니다.",
         })}
       />
       <NewEventForm locale={locale} />

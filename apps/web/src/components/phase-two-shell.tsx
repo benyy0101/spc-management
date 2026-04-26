@@ -32,14 +32,14 @@ export function PhaseTwoShell({
       <section className="grid gap-4 xl:grid-cols-[1.2fr_0.8fr]">
         <Card className="border-border/70 shadow-sm">
           <CardHeader>
-            <CardDescription>{pick(locale, { en: "Connected API", ko: "연결 대상 API" })}</CardDescription>
-            <CardTitle className="mt-2">{pick(locale, { en: "Server Contract", ko: "서버 계약" })}</CardTitle>
+            <CardDescription>{pick(locale, { en: "Planned Tasks", ko: "준비 중인 업무" })}</CardDescription>
+            <CardTitle className="mt-2">{pick(locale, { en: "Included Work", ko: "포함될 기능" })}</CardTitle>
           </CardHeader>
           <CardContent className="space-y-3">
             {apiItems.map((item) => (
               <div
                 key={item}
-                className="rounded-xl border border-dashed border-border/80 bg-muted/30 px-4 py-3 font-mono text-sm text-foreground"
+                className="rounded-xl border border-dashed border-border/80 bg-muted/30 px-4 py-3 text-sm text-foreground"
               >
                 {item}
               </div>
@@ -49,8 +49,8 @@ export function PhaseTwoShell({
 
         <Card className="border-border/70 shadow-sm">
           <CardHeader>
-            <CardDescription>{pick(locale, { en: "Implementation Notes", ko: "구현 메모" })}</CardDescription>
-            <CardTitle className="mt-2">{pick(locale, { en: "Next Web Work", ko: "다음 웹 작업" })}</CardTitle>
+            <CardDescription>{pick(locale, { en: "Next Step", ko: "다음 단계" })}</CardDescription>
+            <CardTitle className="mt-2">{pick(locale, { en: "To Be Added", ko: "추가 예정 내용" })}</CardTitle>
           </CardHeader>
           <CardContent className="space-y-3">
             {nextItems.map((item) => (

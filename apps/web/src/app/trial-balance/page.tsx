@@ -36,14 +36,14 @@ export default async function TrialBalancePage({
         eyebrow={pick(locale, { en: "Ledger", ko: "원장" })}
         title={pick(locale, { en: "Trial Balance", ko: "시산표" })}
         description={pick(locale, {
-          en: "This screen will validate that posted journals roll up correctly by account as of a reporting date.",
-          ko: "이 화면은 posting된 전표가 기준일 기준 계정 잔액으로 올바르게 집계되는지 검증합니다.",
+          en: "Check whether journal balances are correctly summarized by account on the selected date.",
+          ko: "선택한 날짜 기준으로 전표 잔액이 계정별로 올바르게 합산되었는지 확인합니다.",
         })}
       />
       <Card className="border-border/70 shadow-sm">
         <CardHeader>
           <CardTitle>{pick(locale, { en: "Filters", ko: "필터" })}</CardTitle>
-          <CardDescription>{pick(locale, { en: "The API requires `tenantId` and `asOf`. Entity remains optional.", ko: "API는 `tenantId`와 `asOf`가 필요합니다. entity는 선택 사항입니다." })}</CardDescription>
+          <CardDescription>{pick(locale, { en: "Select a company and date. The accounting unit is optional.", ko: "회사와 날짜를 선택하세요. 회계 단위는 선택 사항입니다." })}</CardDescription>
         </CardHeader>
         <CardContent>
           <form className="grid gap-4 md:grid-cols-3">
@@ -55,7 +55,7 @@ export default async function TrialBalancePage({
               ))}
             </NativeSelect>
             <NativeSelect name="entityId" defaultValue={entityId}>
-              <option value="">All entities</option>
+              <option value="">{pick(locale, { en: "All accounting units", ko: "전체 회계 단위" })}</option>
               {entities.items.map((entity) => (
                 <option key={entity.id} value={entity.id}>
                   {entity.code} · {entity.name}
@@ -71,7 +71,7 @@ export default async function TrialBalancePage({
         <CardHeader>
           <CardTitle>{pick(locale, { en: "Trial Balance", ko: "시산표" })}</CardTitle>
           <CardDescription>
-            {tenantId ? pick(locale, { en: `As of ${asOf}`, ko: `${asOf} 기준` }) : pick(locale, { en: "Enter a tenant ID and reporting date to load the balances.", ko: "잔액을 조회하려면 tenant와 기준일을 선택하세요." })}
+            {tenantId ? pick(locale, { en: `As of ${asOf}`, ko: `${asOf} 기준` }) : pick(locale, { en: "Select a company and date to view balances.", ko: "잔액을 보려면 회사와 날짜를 선택하세요." })}
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -80,8 +80,8 @@ export default async function TrialBalancePage({
           ) : (
             <div className="rounded-xl border border-dashed border-border/80 bg-muted/40 p-5 text-sm leading-6 text-muted-foreground">
               {tenantId
-                ? pick(locale, { en: "The API request failed or returned no data. Check the API server and the selected filters.", ko: "API 요청이 실패했거나 데이터가 없습니다. 서버 상태와 선택한 필터를 확인하세요." })
-                : pick(locale, { en: "No request has been sent yet. Select a tenant and reporting date to query the balances.", ko: "아직 요청이 전송되지 않았습니다. tenant와 기준일을 선택해 잔액을 조회하세요." })}
+                ? pick(locale, { en: "No balance data was found. Check the selected conditions.", ko: "잔액 자료가 없습니다. 선택한 조건을 다시 확인하세요." })
+                : pick(locale, { en: "Select a company and date first.", ko: "회사와 날짜를 먼저 선택하세요." })}
             </div>
           )}
         </CardContent>

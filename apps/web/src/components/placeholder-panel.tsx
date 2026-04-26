@@ -31,8 +31,7 @@ export function PlaceholderPanel({
         </CardHeader>
         <CardContent>
           <div className="rounded-xl border border-dashed border-border/80 bg-muted/40 p-5 text-sm leading-6 text-muted-foreground">
-            This screen is scaffolded so the navigation, routing, and information architecture are fixed early. The
-            next pass should wire the real API client and replace this placeholder with production tables and forms.
+            This screen shell is ready. Detailed lists and entry forms will be added next.
           </div>
         </CardContent>
         {ctaLabel && ctaHref ? (

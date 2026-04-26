@@ -23,12 +23,12 @@ export default async function ProductsPage({
       <PageHeader
         eyebrow={pick(locale, { en: "Reference", ko: "기준정보" })}
         title={pick(locale, { en: "Products", ko: "상품" })}
-        description={pick(locale, { en: "Browse product masters that drive event posting and contract linkage.", ko: "이벤트 분개와 계약 연결에 사용되는 상품 마스터를 조회합니다." })}
+        description={pick(locale, { en: "Review registered products linked to contracts and transactions.", ko: "계약과 거래에 연결되는 등록 상품을 확인합니다." })}
       />
       <Card className="border-border/70 shadow-sm">
         <CardHeader>
           <CardTitle>{pick(locale, { en: "Filters", ko: "필터" })}</CardTitle>
-          <CardDescription>{pick(locale, { en: "Select a tenant to load product masters.", ko: "상품 마스터를 불러오려면 tenant를 선택하세요." })}</CardDescription>
+          <CardDescription>{pick(locale, { en: "Select a company to view products.", ko: "상품을 보려면 회사를 선택하세요." })}</CardDescription>
         </CardHeader>
         <CardContent>
           <form className="grid gap-4 md:grid-cols-[minmax(220px,320px)_auto]">
@@ -46,14 +46,14 @@ export default async function ProductsPage({
       <Card className="border-border/70 shadow-sm">
         <CardHeader>
           <CardTitle>{pick(locale, { en: "Products", ko: "상품" })}</CardTitle>
-          <CardDescription>{tenantId ? pick(locale, { en: `${data.count} product row(s)`, ko: `${data.count}개의 상품 행` }) : pick(locale, { en: "No tenant selected.", ko: "선택된 tenant가 없습니다." })}</CardDescription>
+          <CardDescription>{tenantId ? pick(locale, { en: `${data.count} products`, ko: `${data.count}개의 상품` }) : pick(locale, { en: "No company selected.", ko: "선택된 회사가 없습니다." })}</CardDescription>
         </CardHeader>
         <CardContent>
           {tenantId && data.items.length > 0 ? (
             <ProductsTable items={data.items} locale={locale} />
           ) : (
             <div className="rounded-xl border border-dashed border-border/80 bg-muted/40 p-5 text-sm leading-6 text-muted-foreground">
-              {pick(locale, { en: "No product rows were returned for the selected tenant.", ko: "선택한 tenant에 대해 상품 데이터가 없습니다." })}
+              {pick(locale, { en: "No products were found for the selected company.", ko: "선택한 회사에 상품 정보가 없습니다." })}
             </div>
           )}
         </CardContent>

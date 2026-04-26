@@ -19,12 +19,12 @@ export function AppShell({ children, locale }: { children: ReactNode; locale: Lo
                   {pick(locale, { en: "Structured Finance", ko: "구조화 금융" })}
                 </p>
                 <h2 className="mt-1 font-heading text-2xl font-semibold tracking-tight">
-                  {pick(locale, { en: "Accounting Operations", ko: "회계 운영 화면" })}
+                  {pick(locale, { en: "Accounting Work Area", ko: "회계 업무 화면" })}
                 </h2>
               </div>
               <div className="flex items-center gap-3">
                 <div className="rounded-full border border-border bg-card px-3 py-1.5 text-sm text-muted-foreground">
-                  {pick(locale, { en: "Reporting and operations enabled", ko: "보고 및 운영 기능 활성화" })}
+                  {pick(locale, { en: "Ready for review work", ko: "조회와 검토에 바로 사용 가능" })}
                 </div>
                 <LocaleToggle locale={locale} />
               </div>

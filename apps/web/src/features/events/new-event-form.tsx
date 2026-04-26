@@ -254,11 +254,11 @@ export function NewEventForm({ locale }: { locale: Locale }) {
   return (
     <Card className="border-border/70 shadow-sm">
       <CardHeader>
-        <CardTitle>Loan Lifecycle Event</CardTitle>
+        <CardTitle>{pick(locale, { en: "Loan Transaction Entry", ko: "대출 거래 입력" })}</CardTitle>
         <CardDescription>
           {pick(locale, {
-            en: "The first connected client form is intentionally narrow. Select the seeded tenant, then choose the seeded entity, product, and contract references from the connected API.",
-            ko: "첫 연결형 클라이언트 폼은 의도적으로 범위를 좁게 유지합니다. seeded tenant를 고른 뒤, entity/product/contract를 API에서 선택하세요.",
+            en: "Choose the company, accounting unit, product, and contract, then enter the transaction details.",
+            ko: "회사, 회계 단위, 상품, 계약을 고른 뒤 거래 내용을 입력하세요.",
           })}
         </CardDescription>
       </CardHeader>
@@ -266,10 +266,10 @@ export function NewEventForm({ locale }: { locale: Locale }) {
         <form action={handleSubmit} className="grid gap-5">
           <div className="grid gap-5 xl:grid-cols-2">
             <div className="space-y-2">
-              <Label htmlFor="eventType">{pick(locale, { en: "Event Type", ko: "이벤트 유형" })}</Label>
+              <Label htmlFor="eventType">{pick(locale, { en: "Transaction Type", ko: "거래 유형" })}</Label>
               <Select value={eventType} onValueChange={(value) => setEventType(value as typeof eventType)}>
                 <SelectTrigger className="w-full">
-                  <SelectValue placeholder={pick(locale, { en: "Select one of the enabled event types", ko: "지원되는 이벤트 유형을 선택하세요" })} />
+                  <SelectValue placeholder={pick(locale, { en: "Select a transaction type", ko: "거래 유형을 선택하세요" })} />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="loan_origination">{pick(locale, { en: "Loan Origination", ko: "대출 실행" })}</SelectItem>
@@ -280,7 +280,7 @@ export function NewEventForm({ locale }: { locale: Locale }) {
             </div>
             <div className="space-y-2">
               <div className="flex items-center justify-between gap-3">
-                <Label htmlFor="eventId">{pick(locale, { en: "Event ID", ko: "이벤트 ID" })}</Label>
+                <Label htmlFor="eventId">{pick(locale, { en: "Transaction Number", ko: "거래 번호" })}</Label>
                 <button
                   type="button"
                   onClick={() => setEventId(`WEB-${crypto.randomUUID()}`)}
@@ -296,7 +296,7 @@ export function NewEventForm({ locale }: { locale: Locale }) {
 
           <div className="grid gap-5 xl:grid-cols-2">
             <div className="space-y-2">
-              <Label htmlFor="tenantId">{pick(locale, { en: "Tenant", ko: "테넌트" })}</Label>
+              <Label htmlFor="tenantId">{pick(locale, { en: "Company", ko: "회사" })}</Label>
               <input type="hidden" name="tenantId" value={tenantId} />
               <Select
                 value={tenantId}
@@ -313,7 +313,7 @@ export function NewEventForm({ locale }: { locale: Locale }) {
                 disabled={tenants.tenants.length === 0}
               >
                 <SelectTrigger className="w-full">
-                  <SelectValue placeholder={pick(locale, { en: "Select a tenant", ko: "테넌트를 선택하세요" })} />
+                  <SelectValue placeholder={pick(locale, { en: "Select a company", ko: "회사를 선택하세요" })} />
                 </SelectTrigger>
                 <SelectContent>
                   {tenants.tenants.map((tenant) => (
@@ -325,7 +325,7 @@ export function NewEventForm({ locale }: { locale: Locale }) {
               </Select>
             </div>
             <div className="space-y-2">
-              <Label htmlFor="entityId">{pick(locale, { en: "Entity", ko: "회계주체" })}</Label>
+              <Label htmlFor="entityId">{pick(locale, { en: "Accounting Unit", ko: "회계 단위" })}</Label>
               <input type="hidden" name="entityId" value={selectedEntityId} />
               <Select
                 value={selectedEntityId}
@@ -333,7 +333,7 @@ export function NewEventForm({ locale }: { locale: Locale }) {
                 disabled={!tenantId || references.entities.length === 0}
               >
                 <SelectTrigger className="w-full">
-                  <SelectValue placeholder={tenantId ? pick(locale, { en: "Select an entity", ko: "회계주체를 선택하세요" }) : pick(locale, { en: "Select a tenant first", ko: "먼저 테넌트를 선택하세요" })} />
+                  <SelectValue placeholder={tenantId ? pick(locale, { en: "Select an accounting unit", ko: "회계 단위를 선택하세요" }) : pick(locale, { en: "Select a company first", ko: "먼저 회사를 선택하세요" })} />
                 </SelectTrigger>
                 <SelectContent>
                   {references.entities.map((entity) => (
@@ -356,7 +356,7 @@ export function NewEventForm({ locale }: { locale: Locale }) {
                 disabled={!tenantId || references.products.length === 0}
               >
                 <SelectTrigger className="w-full">
-                  <SelectValue placeholder={tenantId ? pick(locale, { en: "Select a product", ko: "상품을 선택하세요" }) : pick(locale, { en: "Select a tenant first", ko: "먼저 테넌트를 선택하세요" })} />
+                  <SelectValue placeholder={tenantId ? pick(locale, { en: "Select a product", ko: "상품을 선택하세요" }) : pick(locale, { en: "Select a company first", ko: "먼저 회사를 선택하세요" })} />
                 </SelectTrigger>
                 <SelectContent>
                   {references.products.map((product) => (
@@ -376,7 +376,7 @@ export function NewEventForm({ locale }: { locale: Locale }) {
                 disabled={!tenantId || contractOptions.length === 0}
               >
                 <SelectTrigger className="w-full">
-                  <SelectValue placeholder={tenantId ? pick(locale, { en: "Select a contract", ko: "계약을 선택하세요" }) : pick(locale, { en: "Select a tenant first", ko: "먼저 테넌트를 선택하세요" })} />
+                  <SelectValue placeholder={tenantId ? pick(locale, { en: "Select a contract", ko: "계약을 선택하세요" }) : pick(locale, { en: "Select a company first", ko: "먼저 회사를 선택하세요" })} />
                 </SelectTrigger>
                 <SelectContent>
                   {contractOptions.map((contract) => (
@@ -391,7 +391,7 @@ export function NewEventForm({ locale }: { locale: Locale }) {
 
           <div className="grid gap-5 xl:grid-cols-4">
             <div className="space-y-2">
-              <Label htmlFor="bookCode">{pick(locale, { en: "Book Code", ko: "장부 코드" })}</Label>
+              <Label htmlFor="bookCode">{pick(locale, { en: "Ledger Code", ko: "장부 코드" })}</Label>
               <Input id="bookCode" name="bookCode" defaultValue={defaultValues.bookCode} required />
             </div>
             <div className="space-y-2">
@@ -416,7 +416,7 @@ export function NewEventForm({ locale }: { locale: Locale }) {
             <div className="flex items-end">
               <Button type="submit" disabled={pending || !canSubmit} className="w-full">
                 {pending ? <LoaderCircle className="size-4 animate-spin" /> : <ArrowRight className="size-4" />}
-                {pick(locale, { en: "Submit Event", ko: "이벤트 제출" })}
+                {pick(locale, { en: "Save Transaction", ko: "거래 저장" })}
               </Button>
             </div>
           </div>
@@ -424,11 +424,11 @@ export function NewEventForm({ locale }: { locale: Locale }) {
           <div className="rounded-xl border border-border/70 bg-muted/40 px-4 py-3 text-sm text-muted-foreground">
             <div className="flex items-center gap-2 font-medium text-foreground">
               <CheckCircle2 className="size-4 text-emerald-600" />
-              {pick(locale, { en: "Posting context", ko: "Posting 문맥" })}
+              {pick(locale, { en: "Selected Details", ko: "선택 내용" })}
             </div>
             <p className="mt-2 leading-6">
-              {selectedTenant ? `${selectedTenant.code}` : pick(locale, { en: "Select a tenant", ko: "테넌트 선택" })} /{" "}
-              {selectedEntity ? `${selectedEntity.code}` : pick(locale, { en: "Select an entity", ko: "회계주체 선택" })} /{" "}
+              {selectedTenant ? `${selectedTenant.code}` : pick(locale, { en: "Select a company", ko: "회사 선택" })} /{" "}
+              {selectedEntity ? `${selectedEntity.code}` : pick(locale, { en: "Select an accounting unit", ko: "회계 단위 선택" })} /{" "}
               {selectedProduct ? `${selectedProduct.code}` : pick(locale, { en: "Select a product", ko: "상품 선택" })} /{" "}
               {selectedContract ? `${selectedContract.code}` : pick(locale, { en: "Select a contract", ko: "계약 선택" })}
             </p>
@@ -437,13 +437,13 @@ export function NewEventForm({ locale }: { locale: Locale }) {
           {state.kind === "success" ? (
             <div className="rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-900">
               <div className="flex items-center gap-2">
-                <Badge variant="outline">{state.duplicate ? pick(locale, { en: "Duplicate", ko: "중복" }) : pick(locale, { en: "Posted", ko: "처리 완료" })}</Badge>
+                <Badge variant="outline">{state.duplicate ? pick(locale, { en: "Already Processed", ko: "이미 처리됨" }) : pick(locale, { en: "Saved", ko: "저장 완료" })}</Badge>
                 <span className="font-medium">{state.eventId}</span>
               </div>
               <p className="mt-2">
                 {pick(locale, {
-                  en: `Journal count: ${state.journalCount}. ${state.duplicate ? "No new journals were created." : "Posting completed."}`,
-                  ko: `전표 수: ${state.journalCount}. ${state.duplicate ? "새 전표는 생성되지 않았습니다." : "Posting이 완료되었습니다."}`,
+                  en: `Created journals: ${state.journalCount}. ${state.duplicate ? "The same transaction was already processed." : "The transaction has been saved."}`,
+                  ko: `생성된 전표: ${state.journalCount}건. ${state.duplicate ? "같은 거래가 이미 처리되어 추가 전표는 만들지 않았습니다." : "거래 저장이 완료되었습니다."}`,
                 })}
               </p>
               <div className="mt-3 flex flex-wrap gap-2">
@@ -451,7 +451,7 @@ export function NewEventForm({ locale }: { locale: Locale }) {
                   href={`/events?tenantId=${encodeURIComponent(tenantId)}&entityId=${encodeURIComponent(selectedEntityId)}`}
                   className={cn(buttonVariants({ variant: "outline", size: "sm" }), "inline-flex")}
                 >
-                  {pick(locale, { en: "View Events", ko: "이벤트 보기" })}
+                  {pick(locale, { en: "View Transactions", ko: "거래 내역 보기" })}
                 </Link>
                 <Link
                   href={`/journals?tenantId=${encodeURIComponent(tenantId)}&entityId=${encodeURIComponent(selectedEntityId)}&from=${encodeURIComponent(defaultValues.accountingDate)}&to=${encodeURIComponent(defaultValues.accountingDate)}`}
@@ -471,7 +471,7 @@ export function NewEventForm({ locale }: { locale: Locale }) {
 
           {references.kind === "loading" ? (
             <div className="rounded-xl border border-border/70 bg-muted/40 px-4 py-3 text-sm text-muted-foreground">
-              {pick(locale, { en: "Loading entity, product, and contract references for this tenant.", ko: "이 테넌트의 entity, product, contract 기준정보를 불러오는 중입니다." })}
+              {pick(locale, { en: "Loading company details.", ko: "선택한 회사의 기본 자료를 불러오는 중입니다." })}
             </div>
           ) : null}
 
@@ -483,7 +483,7 @@ export function NewEventForm({ locale }: { locale: Locale }) {
 
           {tenants.kind === "loading" ? (
             <div className="rounded-xl border border-border/70 bg-muted/40 px-4 py-3 text-sm text-muted-foreground">
-              {pick(locale, { en: "Loading tenant list.", ko: "테넌트 목록을 불러오는 중입니다." })}
+              {pick(locale, { en: "Loading company list.", ko: "회사 목록을 불러오는 중입니다." })}
             </div>
           ) : null}
 

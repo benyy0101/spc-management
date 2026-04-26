@@ -31,8 +31,8 @@ export default async function StatementMappingsPage({
         eyebrow={pick(locale, { en: "Financial", ko: "재무보고" })}
         title={pick(locale, { en: "Statement Mappings", ko: "재무제표 매핑" })}
         description={pick(locale, {
-          en: "Manage account-to-line mappings that drive the balance sheet, profit and loss, and cash flow statements.",
-          ko: "재무상태표, 손익계산서, 현금흐름표를 구동하는 계정-라인 매핑을 관리합니다.",
+          en: "Manage how each account appears in the balance sheet, profit and loss, and cash flow statements.",
+          ko: "계정과목이 재무상태표, 손익계산서, 현금흐름표에 어떻게 표시되는지 관리합니다.",
         })}
       />
 
@@ -41,8 +41,8 @@ export default async function StatementMappingsPage({
           <CardTitle>{pick(locale, { en: "Filters", ko: "필터" })}</CardTitle>
           <CardDescription>
             {pick(locale, {
-              en: "Select a tenant to review and maintain statement mappings.",
-              ko: "재무제표 매핑을 조회하고 관리할 tenant를 선택하세요.",
+              en: "Select a company to review statement settings.",
+              ko: "재무제표 표시 기준을 보려면 회사를 선택하세요.",
             })}
           </CardDescription>
         </CardHeader>
@@ -67,14 +67,14 @@ export default async function StatementMappingsPage({
 
       <Card className="border-border/70 shadow-sm">
         <CardHeader>
-          <CardTitle>{pick(locale, { en: "Statement Mapping Rows", ko: "재무제표 매핑 목록" })}</CardTitle>
+          <CardTitle>{pick(locale, { en: "Statement Settings", ko: "재무제표 표시 기준" })}</CardTitle>
           <CardDescription>
             {tenantId
               ? pick(locale, {
-                  en: `${mappings.count} mapping row(s) · ${accounts.count} account row(s) available`,
-                  ko: `${mappings.count}개의 매핑 · ${accounts.count}개의 계정과목 사용 가능`,
+                  en: `${mappings.count} settings · ${accounts.count} accounts available`,
+                  ko: `${mappings.count}개의 설정 · ${accounts.count}개의 계정과목`,
                 })
-              : pick(locale, { en: "No tenant selected.", ko: "선택된 tenant가 없습니다." })}
+              : pick(locale, { en: "No company selected.", ko: "선택된 회사가 없습니다." })}
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -95,8 +95,8 @@ export default async function StatementMappingsPage({
           ) : (
             <div className="rounded-xl border border-dashed border-border/80 bg-muted/40 p-5 text-sm leading-6 text-muted-foreground">
               {pick(locale, {
-                en: "Select a tenant to load statement mapping rows.",
-                ko: "재무제표 매핑을 불러오려면 tenant를 선택하세요.",
+                en: "Select a company to load statement settings.",
+                ko: "재무제표 표시 기준을 보려면 회사를 선택하세요.",
               })}
             </div>
           )}
